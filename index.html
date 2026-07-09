@@ -43,7 +43,7 @@
     border-radius: 8px; margin: 2px 10px; cursor: pointer;
     font-family: system-ui, -apple-system, sans-serif; font-size: 13px;
     font-weight: 500; letter-spacing: 0.01em;
-    color: rgba(255,255,255,0.4); border: 1px solid transparent;
+    color: rgba(255,255,255,0.7); border: 1px solid transparent;
     transition: color 0.18s, background 0.18s, border-color 0.18s;
     user-select: none;
   }
@@ -57,12 +57,12 @@
   .nav-item:hover .nav-icon { opacity: 0.7; }
   .nav-badge {
     margin-left: auto; background: rgba(255,255,255,0.08); border-radius: 100px;
-    padding: 2px 8px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.4);
+    padding: 2px 8px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.7);
     letter-spacing: 0.05em;
   }
   .nav-section-label {
     font-family: 'Inter', system-ui, sans-serif; font-size: 9px; font-weight: 600;
-    letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.18);
+    letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.7);
     padding: 18px 20px 6px;
   }
 
@@ -84,15 +84,15 @@
   .upload-zone:hover { border-color:rgba(30,144,255,0.4); background:rgba(30,144,255,0.04); }
   .upload-zone.dragover { border-color:#1E90FF; background:rgba(30,144,255,0.09); }
 
-  .filter-pill { display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; color:rgba(255,255,255,0.35); transition:all 0.2s; }
+  .filter-pill { display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; color:rgba(255,255,255,0.7); transition:all 0.2s; }
   .filter-pill:hover { color:#fff; border-color:rgba(255,255,255,0.2); }
   .active-pill { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); color:#fff; }
   .filter-pill.needs-active { background:rgba(251,146,60,0.1); border-color:rgba(251,146,60,0.3); color:#fb923c; }
   .filter-pill.delivered-active { background:rgba(57,211,83,0.08); border-color:rgba(57,211,83,0.25); color:#39D353; }
-  .filter-select { background:#141414; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:7px 30px 7px 12px; color:rgba(255,255,255,0.5); font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; cursor:pointer; outline:none; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.25)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; transition:border-color 0.2s,color 0.2s; }
+  .filter-select { background:#141414; border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:7px 30px 7px 12px; color:rgba(255,255,255,0.7); font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; cursor:pointer; outline:none; appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.25)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 10px center; transition:border-color 0.2s,color 0.2s; }
   .filter-select:focus,.filter-select:hover { border-color:rgba(255,255,255,0.2); color:#fff; }
   .filter-select.active-select { border-color:rgba(30,144,255,0.35); color:#1E90FF; background-color:#141414; }
-  .filter-panel-item { display:block; width:100%; text-align:left; padding:8px 12px; border-radius:7px; background:none; border:1px solid transparent; cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:0.08em; color:rgba(255,255,255,0.4); transition:all 0.15s; }
+  .filter-panel-item { display:block; width:100%; text-align:left; padding:8px 12px; border-radius:7px; background:none; border:1px solid transparent; cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700; letter-spacing:0.08em; color:rgba(255,255,255,0.7); transition:all 0.15s; }
   .filter-panel-item:hover { background:rgba(255,255,255,0.05); color:#fff; }
   .active-panel-item { background:rgba(255,255,255,0.07); border-color:rgba(255,255,255,0.1); color:#fff; }
 
@@ -109,7 +109,7 @@
   /* ── Badges ─────────────────────────────────────────────────────────────── */
   .badge { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 100px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif; white-space: nowrap; }
   .badge-purchased { background: rgba(57,211,83,0.1);  border: 1px solid rgba(57,211,83,0.25);  color: #39D353; }
-  .badge-pending   { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); }
+  .badge-pending   { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
   .badge-submitted { background: rgba(30,144,255,0.1);  border: 1px solid rgba(30,144,255,0.25); color: #1E90FF; }
   .badge-editing   { background: rgba(251,146,60,0.1);  border: 1px solid rgba(251,146,60,0.28); color: #fb923c; }
   .badge-done      { background: rgba(0,201,167,0.1);   border: 1px solid rgba(0,201,167,0.28);  color: #00C9A7; }
@@ -117,20 +117,20 @@
   /* ── Form fields ─────────────────────────────────────────────────────────── */
   .field { width: 100%; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 11px 14px; color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s; }
   .field:focus { border-color: rgba(30,144,255,0.5); }
-  .field::placeholder { color: rgba(255,255,255,0.2); }
+  .field::placeholder { color: rgba(255,255,255,0.7); }
 
   /* ── Drawer ──────────────────────────────────────────────────────────────── */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
   .drawer-overlay.open { opacity: 1; pointer-events: all; }
   .drawer { position: fixed; top: 0; right: 0; height: 100vh; width: 100%; max-width: 500px; background: #111; border-left: 1px solid rgba(255,255,255,0.07); z-index: 101; transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; }
   .drawer.open { transform: translateX(0); }
-  .d-label { font-family: 'Inter', system-ui, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); display: block; margin-bottom: 5px; }
+  .d-label { font-family: 'Inter', system-ui, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); display: block; margin-bottom: 5px; }
   .d-field { width: 100%; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 10px 13px; color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s; }
   .d-field:focus { border-color: rgba(30,144,255,0.45); }
-  .d-field::placeholder { color: rgba(255,255,255,0.2); }
+  .d-field::placeholder { color: rgba(255,255,255,0.7); }
   select.d-field { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; appearance: none; }
   select.d-field option { background: #1a1a1a; }
-  .d-section { font-family: 'Inter', system-ui, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 16px; margin-top: 24px; }
+  .d-section { font-family: 'Inter', system-ui, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 16px; margin-top: 24px; }
 
   /* ── Misc ─────────────────────────────────────────────────────────────────── */
   .fade-in { animation: fadeIn 0.28s ease; }
@@ -153,15 +153,15 @@
         <img src="logo-transparent.png" alt="EyeScout" style="width:72px;height:72px;border-radius:50%;object-fit:contain;margin:0 auto;display:block;">
       </div>
       <h1 class="cond" style="font-size:28px;font-weight:900;letter-spacing:0.08em;text-transform:uppercase;color:#fff;margin-bottom:4px;">Admin Panel</h1>
-      <p style="font-size:13px;color:rgba(255,255,255,0.3);">Sign in to manage players</p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.7);">Sign in to manage players</p>
     </div>
     <div style="background:#141414;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:28px;">
       <div style="margin-bottom:16px;">
-        <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:block;margin-bottom:7px;" for="admin-user">Email</label>
+        <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);display:block;margin-bottom:7px;" for="admin-user">Email</label>
         <input class="field" type="email" id="admin-user" placeholder="Enter admin email" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('admin-pw').focus()">
       </div>
       <div style="margin-bottom:16px;">
-        <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:block;margin-bottom:7px;" for="admin-pw">Password</label>
+        <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);display:block;margin-bottom:7px;" for="admin-pw">Password</label>
         <input class="field" type="password" id="admin-pw" placeholder="Enter admin password" autocomplete="current-password" onkeydown="if(event.key==='Enter')checkLogin()">
       </div>
       <p style="display:none;font-size:12px;color:#f87171;margin-bottom:12px;" id="admin-err">Incorrect username or password.</p>
@@ -182,7 +182,7 @@
         <img src="logo-transparent.png" alt="EyeScout" style="width:42px;height:42px;border-radius:50%;object-fit:contain;flex-shrink:0;">
         <div>
           <p class="cond" style="font-size:13px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#fff;line-height:1.1;">EyeScout</p>
-          <p class="cond" style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.25);line-height:1;">Admin</p>
+          <p class="cond" style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.7);line-height:1;">Admin</p>
         </div>
       </div>
     </div>
@@ -247,7 +247,7 @@
 
     <!-- Sidebar footer -->
     <div style="padding:16px 10px;border-top:1px solid rgba(255,255,255,0.05);">
-      <button onclick="adminLogout()" style="display:flex;align-items:center;gap:9px;width:100%;padding:9px 14px;border-radius:7px;background:none;border:none;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">
+      <button onclick="adminLogout()" style="display:flex;align-items:center;gap:9px;width:100%;padding:9px 14px;border-radius:7px;background:none;border:none;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Sign Out
       </button>
@@ -278,8 +278,8 @@
           <!-- Recent submissions -->
           <div style="background:#111111;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:22px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-              <p class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);">Recent Submissions</p>
-              <button onclick="switchView('players')" style="background:none;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.2)'">View All →</button>
+              <p class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Recent Submissions</p>
+              <button onclick="switchView('players')" style="background:none;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">View All →</button>
             </div>
             <div id="dash-submissions" style="display:flex;flex-direction:column;gap:8px;"></div>
           </div>
@@ -287,8 +287,8 @@
           <!-- Upcoming tournaments -->
           <div style="background:#111111;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:22px;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-              <p class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);">Tournaments</p>
-              <button onclick="switchView('tournaments')" style="background:none;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.2)'">Manage →</button>
+              <p class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Tournaments</p>
+              <button onclick="switchView('tournaments')" style="background:none;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Manage →</button>
             </div>
             <div id="dash-tournaments" style="display:flex;flex-direction:column;gap:8px;"></div>
           </div>
@@ -302,7 +302,7 @@
               <p class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#1E90FF;">Pending Coach Approvals</p>
               <span id="dash-pending-badge" style="display:none;padding:2px 8px;border-radius:10px;background:rgba(30,144,255,0.15);border:1px solid rgba(30,144,255,0.3);font-size:10px;font-weight:800;color:#1E90FF;"></span>
             </div>
-            <button onclick="switchView('coaches')" style="background:none;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.2)'">View All →</button>
+            <button onclick="switchView('coaches')" style="background:none;border:none;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);" onmouseover="this.style.color='rgba(255,255,255,0.7)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">View All →</button>
           </div>
           <div id="dash-pending-coaches" style="display:flex;flex-direction:column;gap:8px;"></div>
         </div>
@@ -332,7 +332,7 @@
             <select id="filter-tournament" aria-label="Filter by tournament" class="filter-select" onchange="applySecondaryFilters()">
               <option value="all">All Tournaments</option>
             </select>
-            <button id="clear-all-filters" onclick="clearAllFilters()" style="display:none;padding:7px 13px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.5);white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">✕ Clear</button>
+            <button id="clear-all-filters" onclick="clearAllFilters()" style="display:none;padding:7px 13px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.7);white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">✕ Clear</button>
           </div>
         </div>
 
@@ -342,8 +342,8 @@
           <div style="width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.8" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
           </div>
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">No player accounts yet</p>
-          <p style="font-size:13px;color:rgba(255,255,255,0.18);margin-top:6px;">Players will appear here as they sign up.</p>
+          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">No player accounts yet</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:6px;">Players will appear here as they sign up.</p>
         </div>
 
       </div>
@@ -353,7 +353,7 @@
 
         <!-- Add tournament toggle -->
         <div style="margin-bottom:20px;">
-          <button onclick="toggleTournamentForm()" id="tournament-form-toggle" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.6);transition:all 0.2s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.6)';this.style.borderColor='rgba(255,255,255,0.1)'">
+          <button onclick="toggleTournamentForm()" id="tournament-form-toggle" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:9px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:all 0.2s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.1)'">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" id="tournament-form-chevron"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             New Tournament
           </button>
@@ -361,7 +361,7 @@
 
         <!-- Add tournament form -->
         <div id="add-tournament-card" style="display:none;background:#141414;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:24px;margin-bottom:24px;">
-          <p class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:18px;">Create Tournament</p>
+          <p class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:18px;">Create Tournament</p>
 
           <!-- ── Info ── -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;">
@@ -401,9 +401,9 @@
 
           <!-- ── Dropbox ── -->
           <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:20px;margin-bottom:20px;">
-            <p class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:10px;">Dropbox Album URL <span style="color:rgba(255,255,255,0.15);font-weight:500;">(optional)</span></p>
+            <p class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px;">Dropbox Album URL <span style="color:rgba(255,255,255,0.7);font-weight:500;">(optional)</span></p>
             <input class="field" type="url" id="t-dropbox" aria-label="Tournament Dropbox folder link" placeholder="https://www.dropbox.com/sh/..." autocomplete="off" spellcheck="false">
-            <p style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:7px;line-height:1.6;">On save, every photo in this folder is pulled and displayed inside the app's selection gallery — players browse and pick their shots inline, no Dropbox required.</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:7px;line-height:1.6;">On save, every photo in this folder is pulled and displayed inside the app's selection gallery — players browse and pick their shots inline, no Dropbox required.</p>
           </div>
 
           <!-- ── Submit ── -->
@@ -421,8 +421,8 @@
           <div style="width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">No tournaments yet</p>
-          <p style="font-size:13px;color:rgba(255,255,255,0.18);margin-top:6px;">Add your first tournament above.</p>
+          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">No tournaments yet</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:6px;">Add your first tournament above.</p>
         </div>
 
       </div>
@@ -439,8 +439,8 @@
           <div style="width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.8" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07"/></svg>
           </div>
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">No coaches registered yet</p>
-          <p style="font-size:13px;color:rgba(255,255,255,0.18);margin-top:6px;">Coaches will appear here when they create an account.</p>
+          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">No coaches registered yet</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:6px;">Coaches will appear here when they create an account.</p>
         </div>
 
       </div>
@@ -458,20 +458,20 @@
               <button onclick="needsEditingOpenFilePicker()" style="padding:14px;border-radius:10px;background:rgba(123,47,190,0.12);border:1px solid rgba(123,47,190,0.3);color:#a855f7;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.06em;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;transition:background 0.15s;" onmouseover="this.style.background='rgba(123,47,190,0.22)'" onmouseout="this.style.background='rgba(123,47,190,0.12)'">
                 Upload Files
               </button>
-              <div style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.2);font-size:12px;">
+              <div style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.7);font-size:12px;">
                 <div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div>
                 OR
                 <div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div>
               </div>
               <div>
-                <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:8px;">Dropbox Link</p>
+                <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:8px;">Dropbox Link</p>
                 <input id="needs-editing-dropbox-url" aria-label="Edited photos Dropbox link" type="url" placeholder="https://www.dropbox.com/..." style="width:100%;padding:10px 14px;border-radius:8px;background:#111;border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:13px;outline:none;box-sizing:border-box;" oninput="this.style.borderColor=this.value?'rgba(0,120,255,0.5)':'rgba(255,255,255,0.12)'">
                 <button onclick="needsEditingSaveDropbox()" style="margin-top:8px;width:100%;padding:12px;border-radius:8px;background:rgba(30,144,255,0.12);border:1px solid rgba(30,144,255,0.3);color:#1E90FF;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.06em;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;transition:background 0.15s;" onmouseover="this.style.background='rgba(30,144,255,0.22)'" onmouseout="this.style.background='rgba(30,144,255,0.12)'">
                   Save Link
                 </button>
               </div>
             </div>
-            <button onclick="closeNeedsEditingModal()" style="margin-top:18px;width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.35);font-size:12px;font-weight:600;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em;text-transform:uppercase;">
+            <button onclick="closeNeedsEditingModal()" style="margin-top:18px;width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);font-size:12px;font-weight:600;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em;text-transform:uppercase;">
               Cancel
             </button>
           </div>
@@ -482,8 +482,8 @@
           <div style="width:56px;height:56px;border-radius:14px;background:rgba(57,211,83,0.06);border:1px solid rgba(57,211,83,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#39D353" stroke-width="1.8" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">All caught up!</p>
-          <p style="font-size:13px;color:rgba(255,255,255,0.18);margin-top:6px;">No players need editing right now.</p>
+          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">All caught up!</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:6px;">No players need editing right now.</p>
         </div>
 
       </div>
@@ -491,35 +491,35 @@
       <!-- ── CODES VIEW ────────────────────────────────────────────────────── -->
       <div id="view-codes" style="display:none;">
         <div style="background:#141414;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
-          <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;">Generate a code and share it with a paying customer. They enter it on signup to unlock the purchased pipeline immediately.</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;">Generate a code and share it with a paying customer. They enter it on signup to unlock the purchased pipeline immediately.</p>
         </div>
         <div id="codes-list" class="space-y-2"></div>
         <div id="codes-empty" class="empty-state" style="display:none;">
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">No codes generated yet</p>
+          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">No codes generated yet</p>
         </div>
       </div>
 
       <!-- ── REPORTED POSTS VIEW ───────────────────────────────────────────── -->
       <div id="view-reports" style="display:none;">
         <div style="background:#141414;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
-          <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;">Posts reported by players and coaches. Review each one, then remove the post or dismiss the report.</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;">Posts reported by players and coaches. Review each one, then remove the post or dismiss the report.</p>
         </div>
         <div id="reports-list" style="display:flex;flex-direction:column;gap:14px;"></div>
         <div id="reports-empty" class="empty-state" style="display:none;">
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">No reported posts</p>
+          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">No reported posts</p>
         </div>
       </div>
 
       <!-- ── TEAM ACCESS VIEW ───────────────────────────────────────────────── -->
       <div id="view-team" style="display:none;">
         <div style="background:#141414;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
-          <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;">To add an admin: create their login in Supabase (Authentication → Users → Add User), then add their user id to the <span style="color:rgba(255,255,255,0.6);font-weight:600;">admins</span> table. Remove access here any time.</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;">To add an admin: create their login in Supabase (Authentication → Users → Add User), then add their user id to the <span style="color:rgba(255,255,255,0.7);font-weight:600;">admins</span> table. Remove access here any time.</p>
         </div>
 
         <p class="nav-section-label" style="padding:0 0 8px;">Admins</p>
         <div id="team-list" class="space-y-2" style="margin-bottom:24px;"></div>
         <div id="team-empty" class="empty-state" style="display:none;">
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">No admins yet</p>
+          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">No admins yet</p>
         </div>
       </div>
 
@@ -527,19 +527,19 @@
       <div id="view-settings" style="display:none;">
         <div style="max-width:420px;background:#141414;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:28px;">
           <h3 class="cond" style="font-size:16px;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;color:#fff;margin-bottom:6px;">Change Password</h3>
-          <p style="font-size:12.5px;color:rgba(255,255,255,0.4);line-height:1.6;margin-bottom:20px;">Updates the password for your own account (<span id="settings-username" style="color:rgba(255,255,255,0.6);font-weight:600;"></span>).</p>
+          <p style="font-size:12.5px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:20px;">Updates the password for your own account (<span id="settings-username" style="color:rgba(255,255,255,0.7);font-weight:600;"></span>).</p>
 
           <div id="settings-form">
             <div style="margin-bottom:14px;">
-              <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:block;margin-bottom:7px;" for="set-cur-pw">Current Password</label>
+              <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);display:block;margin-bottom:7px;" for="set-cur-pw">Current Password</label>
               <input class="field" type="password" id="set-cur-pw" placeholder="Enter current password" autocomplete="current-password">
             </div>
             <div style="margin-bottom:14px;">
-              <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:block;margin-bottom:7px;" for="set-new-pw">New Password</label>
+              <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);display:block;margin-bottom:7px;" for="set-new-pw">New Password</label>
               <input class="field" type="password" id="set-new-pw" placeholder="At least 8 characters" autocomplete="new-password">
             </div>
             <div style="margin-bottom:18px;">
-              <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:block;margin-bottom:7px;" for="set-new-pw2">Confirm New Password</label>
+              <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);display:block;margin-bottom:7px;" for="set-new-pw2">Confirm New Password</label>
               <input class="field" type="password" id="set-new-pw2" placeholder="Re-enter new password" autocomplete="new-password" onkeydown="if(event.key==='Enter')submitChangePassword()">
             </div>
             <p id="settings-err" style="display:none;font-size:12px;color:#f87171;margin-bottom:14px;"></p>
@@ -561,10 +561,10 @@
   <div style="padding:24px 24px 0;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div>
-        <p class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:4px;">Manage Tournament</p>
+        <p class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:4px;">Manage Tournament</p>
         <h2 class="cond" id="t-drawer-title" style="font-size:22px;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;color:#fff;line-height:1;"></h2>
       </div>
-      <button onclick="closeTDrawer()" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:16px;flex-shrink:0;" aria-label="Close">×</button>
+      <button onclick="closeTDrawer()" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.7);font-size:16px;flex-shrink:0;" aria-label="Close">×</button>
     </div>
 
     <!-- Tournament meta strip -->
@@ -573,7 +573,7 @@
     <!-- Dropbox -->
     <p class="d-section">Dropbox Link</p>
     <div style="margin-bottom:28px;">
-      <p id="t-drawer-dropbox-empty" style="font-size:13px;color:rgba(255,255,255,0.2);padding:12px 0;">No Dropbox link set for this tournament.</p>
+      <p id="t-drawer-dropbox-empty" style="font-size:13px;color:rgba(255,255,255,0.7);padding:12px 0;">No Dropbox link set for this tournament.</p>
       <a id="t-drawer-dropbox-link" href="#" target="_blank" rel="noopener noreferrer" style="display:none;align-items:center;gap:12px;padding:14px 18px;background:rgba(30,144,255,0.07);border:1px solid rgba(30,144,255,0.2);border-radius:10px;text-decoration:none;transition:background 0.2s;" onmouseover="this.style.background='rgba(30,144,255,0.14)'" onmouseout="this.style.background='rgba(30,144,255,0.07)'">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" stroke-width="2" stroke-linecap="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         <span class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#1E90FF;">Open Tournament Folder on Dropbox →</span>
@@ -581,7 +581,7 @@
       <button id="t-drawer-pull-btn" onclick="pullTournamentPhotos()" style="display:none;margin-top:10px;width:100%;padding:12px;border-radius:8px;background:rgba(0,201,167,0.1);border:1px solid rgba(0,201,167,0.3);color:#00C9A7;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.08em;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;transition:background 0.15s;" onmouseover="this.style.background='rgba(0,201,167,0.2)'" onmouseout="this.style.background='rgba(0,201,167,0.1)'">
         Pull Photos into App Gallery
       </button>
-      <p id="t-drawer-photo-count" style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:8px;"></p>
+      <p id="t-drawer-photo-count" style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:8px;"></p>
     </div>
 
     <!-- Tournament Photo Upload -->
@@ -591,16 +591,16 @@
       <div onclick="document.getElementById('t-photo-upload-input').click()" style="background:rgba(123,47,190,0.06);border:1.5px dashed rgba(123,47,190,0.3);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(123,47,190,0.6)';this.style.background='rgba(123,47,190,0.1)'" onmouseout="this.style.borderColor='rgba(123,47,190,0.3)';this.style.background='rgba(123,47,190,0.06)'">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(123,47,190,0.7)" stroke-width="2" stroke-linecap="round" style="margin:0 auto 8px;display:block;"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
         <p style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(123,47,190,0.8);margin-bottom:2px;">Click to upload photos</p>
-        <p style="font-size:11px;color:rgba(255,255,255,0.2);">Uploads to Dropbox → populates the in-app gallery</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.7);">Uploads to Dropbox → populates the in-app gallery</p>
       </div>
       <p id="t-photo-upload-msg" style="display:none;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;text-align:center;margin-top:10px;"></p>
     </div>
 
     <!-- Purchased Players Roster -->
     <p class="d-section">Purchased Players</p>
-    <p style="font-size:12px;color:rgba(255,255,255,0.25);margin:-10px 0 14px;line-height:1.5;">Paste each player's individual Dropbox folder so they only see their own photos when selecting.</p>
+    <p style="font-size:12px;color:rgba(255,255,255,0.7);margin:-10px 0 14px;line-height:1.5;">Paste each player's individual Dropbox folder so they only see their own photos when selecting.</p>
     <div id="t-drawer-roster" style="display:flex;flex-direction:column;gap:10px;margin-bottom:32px;padding-bottom:40px;"></div>
-    <div id="t-drawer-roster-empty" style="padding:16px 0 48px;font-size:13px;color:rgba(255,255,255,0.2);">No purchased players in this tournament yet.</div>
+    <div id="t-drawer-roster-empty" style="padding:16px 0 48px;font-size:13px;color:rgba(255,255,255,0.7);">No purchased players in this tournament yet.</div>
   </div>
 </div>
 
@@ -610,7 +610,7 @@
   <div style="padding:24px 24px 0;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div>
-        <p class="cond" style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:3px;">Manage Player</p>
+        <p class="cond" style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:3px;">Manage Player</p>
         <h2 id="drawer-title" class="cond text-xl font-black tracking-wide uppercase text-white"></h2>
       </div>
       <button onclick="closeDrawer()" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'" aria-label="Close">
@@ -623,7 +623,7 @@
 
     <!-- Contact quick-bar -->
     <div id="d-contact-bar" style="background:#141414;border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px 16px;margin-bottom:4px;display:none;">
-      <p class="cond" style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:10px;">Quick Contact</p>
+      <p class="cond" style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px;">Quick Contact</p>
       <div id="d-contact-rows" style="display:flex;flex-direction:column;gap:7px;"></div>
     </div>
 
@@ -675,16 +675,16 @@
 
     <!-- Profile Media (all players — add photos/video straight to their profile) -->
     <p class="d-section">Profile Photos & Video</p>
-    <p style="font-size:11px;color:rgba(255,255,255,0.25);margin:-8px 0 10px;line-height:1.5;">Drag & drop or click to add photos and video directly to this player's profile.</p>
+    <p style="font-size:11px;color:rgba(255,255,255,0.7);margin:-8px 0 10px;line-height:1.5;">Drag & drop or click to add photos and video directly to this player's profile.</p>
     <div id="admin-media-dropzone" class="upload-zone" style="padding:22px 20px;margin-bottom:10px;" onclick="document.getElementById('admin-media-upload').click()" ondragover="adminMediaDragOver(event)" ondragleave="adminMediaDragLeave(event)" ondrop="adminMediaDrop(event)">
       <input type="file" id="admin-media-upload" aria-label="Upload photos or video to player profile" multiple accept="image/*,video/*" style="display:none;" onchange="handleAdminMediaUpload(event)">
       <div style="width:36px;height:36px;border-radius:9px;background:rgba(30,144,255,0.1);border:1px solid rgba(30,144,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 9px;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(30,144,255,0.7)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
       </div>
-      <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.35);font-family:'Barlow Condensed',sans-serif;margin-bottom:2px;">Drop photos or video, or click to upload</p>
-      <p style="font-size:11px;color:rgba(255,255,255,0.18);">JPG, PNG, MP4 — video capped at 50MB</p>
+      <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);font-family:'Barlow Condensed',sans-serif;margin-bottom:2px;">Drop photos or video, or click to upload</p>
+      <p style="font-size:11px;color:rgba(255,255,255,0.7);">JPG, PNG, MP4 — video capped at 50MB</p>
     </div>
-    <p id="admin-media-status" style="display:none;font-size:11px;color:rgba(255,255,255,0.4);margin:-2px 0 10px;"></p>
+    <p id="admin-media-status" style="display:none;font-size:11px;color:rgba(255,255,255,0.7);margin:-2px 0 10px;"></p>
     <div id="admin-media-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:24px;"></div>
 
     <!-- Photo Setup (purchased players only) -->
@@ -703,12 +703,12 @@
       <div style="margin-bottom:12px;">
         <label class="d-label" for="d-total-photos">Total Photos in Folder</label>
         <input class="d-field" type="number" id="d-total-photos" placeholder="e.g. 24" min="1" max="200">
-        <p style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:5px;line-height:1.5;">How many photos are in their Dropbox folder. Player will see this many numbered boxes to pick from.</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:5px;line-height:1.5;">How many photos are in their Dropbox folder. Player will see this many numbered boxes to pick from.</p>
       </div>
       <div style="margin-bottom:4px;">
         <label class="d-label" for="d-watermarked-url">Watermarked Photos Link (Dropbox)</label>
         <input class="d-field" type="url" id="d-watermarked-url" placeholder="https://dropbox.com/sh/...">
-        <p style="font-size:11px;color:rgba(255,255,255,0.2);margin-top:5px;line-height:1.5;">Paste the Dropbox folder link for this player's sorted watermarked shots. Once set, player will see a Browse button when they log in.</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:5px;line-height:1.5;">Paste the Dropbox folder link for this player's sorted watermarked shots. Once set, player will see a Browse button when they log in.</p>
       </div>
     </div>
 
@@ -716,7 +716,7 @@
     <p class="d-section" id="d-selection-section" style="display:none;">Player's Selected Photos</p>
     <div id="d-selection-wrap" style="display:none;margin-bottom:4px;">
       <div id="d-selection-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;"></div>
-      <p id="d-selection-note" style="font-size:11px;color:rgba(255,255,255,0.25);line-height:1.6;"></p>
+      <p id="d-selection-note" style="font-size:11px;color:rgba(255,255,255,0.7);line-height:1.6;"></p>
     </div>
 
     <!-- Deliver Photos -->
@@ -726,8 +726,8 @@
       <!-- Delivered photos grid -->
       <div id="d-delivered-thumbs" style="display:none;margin-bottom:16px;">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <p style="font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin:0;">Delivered Photos</p>
-          <span id="d-photo-count" style="font-size:10px;color:rgba(255,255,255,0.2);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;"></span>
+          <p style="font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin:0;">Delivered Photos</p>
+          <span id="d-photo-count" style="font-size:10px;color:rgba(255,255,255,0.7);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;"></span>
         </div>
         <div id="d-delivered-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;"></div>
       </div>
@@ -735,12 +735,12 @@
       <!-- Tab switcher -->
       <div style="display:flex;gap:3px;background:#1a1a1a;border-radius:8px;padding:3px;margin-bottom:14px;border:1px solid rgba(255,255,255,0.06);">
         <button id="tab-url" onclick="switchDeliverTab('url')" style="flex:1;border:none;border-radius:6px;padding:8px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:rgba(30,144,255,0.15);color:#1E90FF;transition:all 0.2s;">Paste URLs</button>
-        <button id="tab-upload" onclick="switchDeliverTab('upload')" style="flex:1;border:none;border-radius:6px;padding:8px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:transparent;color:rgba(255,255,255,0.3);transition:all 0.2s;">Upload Files</button>
+        <button id="tab-upload" onclick="switchDeliverTab('upload')" style="flex:1;border:none;border-radius:6px;padding:8px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;background:transparent;color:rgba(255,255,255,0.7);transition:all 0.2s;">Upload Files</button>
       </div>
 
       <!-- URL tab (default) -->
       <div id="deliver-url-tab">
-        <p style="font-size:11px;color:rgba(255,255,255,0.3);line-height:1.7;margin-bottom:10px;">Paste direct image URLs — one per line. Works with Dropbox (change <code style="background:#1a1a1a;padding:1px 5px;border-radius:3px;color:rgba(255,255,255,0.5);">dl=0</code> → <code style="background:#1a1a1a;padding:1px 5px;border-radius:3px;color:rgba(255,255,255,0.5);">dl=1</code>), Cloudinary, Imgur, or any direct image link.</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:10px;">Paste direct image URLs — one per line. Works with Dropbox (change <code style="background:#1a1a1a;padding:1px 5px;border-radius:3px;color:rgba(255,255,255,0.7);">dl=0</code> → <code style="background:#1a1a1a;padding:1px 5px;border-radius:3px;color:rgba(255,255,255,0.7);">dl=1</code>), Cloudinary, Imgur, or any direct image link.</p>
         <textarea id="d-url-input" aria-label="Photo URLs, one per line" class="d-field" rows="5" placeholder="https://dl.dropboxusercontent.com/...&#10;https://res.cloudinary.com/...&#10;https://i.imgur.com/..." style="resize:vertical;line-height:1.6;font-size:13px;"></textarea>
         <button onclick="addPhotoUrls()" class="g-btn w-full py-3 rounded-lg cond font-black tracking-[0.15em] uppercase text-white" style="font-size:13px;margin-top:8px;">
           Add Photos →
@@ -757,8 +757,8 @@
           <div style="width:36px;height:36px;border-radius:9px;background:rgba(30,144,255,0.1);border:1px solid rgba(30,144,255,0.2);display:flex;align-items:center;justify-content:center;margin:0 auto 9px;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(30,144,255,0.7)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           </div>
-          <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.35);font-family:'Barlow Condensed',sans-serif;margin-bottom:2px;">Click to upload photos</p>
-          <p style="font-size:11px;color:rgba(255,255,255,0.18);">JPG, PNG — stored locally in browser</p>
+          <p style="font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);font-family:'Barlow Condensed',sans-serif;margin-bottom:2px;">Click to upload photos</p>
+          <p style="font-size:11px;color:rgba(255,255,255,0.7);">JPG, PNG — stored locally in browser</p>
         </div>
       </div>
 
@@ -772,7 +772,7 @@
         ✓ Mark Selections Received via Email
       </button>
       <button id="d-editing-btn" onclick="togglePhotosReady()" aria-label="Toggle photos ready" style="display:none;text-align:left;border-radius:8px;padding:10px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;transition:all 0.2s;"></button>
-      <button id="d-clear-btn" onclick="clearSelection()" style="text-align:left;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);transition:all 0.2s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.3)'" onmouseout="this.style.color='rgba(255,255,255,0.45)';this.style.borderColor='rgba(255,255,255,0.1)'">
+      <button id="d-clear-btn" onclick="clearSelection()" style="text-align:left;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:all 0.2s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.3)'" onmouseout="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.1)'">
         ↺ Reset Photo Selection
       </button>
       <button onclick="deletePlayer()" style="text-align:left;background:rgba(255,60,60,0.07);border:1px solid rgba(255,60,60,0.2);border-radius:8px;padding:10px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,100,100,0.7);transition:all 0.2s;" onmouseover="this.style.background='rgba(255,60,60,0.14)'" onmouseout="this.style.background='rgba(255,60,60,0.07)'">
@@ -819,13 +819,13 @@
     const photoHTML = photos.map((ph, i) => `
       <div style="position:relative;border-radius:7px;overflow:hidden;aspect-ratio:3/4;background:#1a1a1a;">
         <img alt="Player photo" src="${escHtml(ph.url || ph.dataUrl)}" style="width:100%;height:100%;object-fit:cover;display:block;">
-        <button onclick="removeAdminMediaPhoto(${i})" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:10px;line-height:1;" title="Remove">×</button>
+        <button onclick="removeAdminMediaPhoto(${i})" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.7);font-size:10px;line-height:1;" title="Remove">×</button>
       </div>`).join('');
     const clipHTML = clips.map((clip, i) => `
       <div style="position:relative;border-radius:7px;overflow:hidden;aspect-ratio:3/4;background:#1a1a1a;">
         <video src="${escHtml(clip.url || clip.dataUrl)}" muted style="width:100%;height:100%;object-fit:cover;display:block;"></video>
         <div style="position:absolute;bottom:4px;left:4px;background:rgba(0,0,0,0.7);border-radius:4px;padding:2px 5px;font-size:9px;color:rgba(255,255,255,0.7);">▶ video</div>
-        <button onclick="removeAdminMediaClip(${i})" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:10px;line-height:1;" title="Remove">×</button>
+        <button onclick="removeAdminMediaClip(${i})" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.7);font-size:10px;line-height:1;" title="Remove">×</button>
       </div>`).join('');
     grid.innerHTML = photoHTML + clipHTML;
   }
@@ -1146,7 +1146,7 @@
     const titles = { dashboard: 'Dashboard', players: 'Players', tournaments: 'Tournaments', codes: 'Purchase Codes', coaches: 'Coaches', 'needs-editing': 'Needs Editing', reports: 'Reported Posts', team: 'Team Access', settings: 'Settings' };
     document.getElementById('topbar-title').textContent = titles[view] || view;
 
-    const refreshBtn = `<button onclick="syncAndRenderPlayers(this)" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.35);transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.35)'">↺ Refresh</button>`;
+    const refreshBtn = `<button onclick="syncAndRenderPlayers(this)" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">↺ Refresh</button>`;
     if (view === 'dashboard')         { renderDashboard(); document.getElementById('topbar-actions').innerHTML = ''; }
     else if (view === 'players')      { document.getElementById('topbar-actions').innerHTML = refreshBtn; }
     else if (view === 'tournaments')  { document.getElementById('topbar-actions').innerHTML = ''; }
@@ -1181,7 +1181,7 @@
     document.getElementById('dash-stats').innerHTML = statCards.map(s => `
       <div style="background:${s.bg};border:1px solid ${s.border};border-radius:12px;padding:20px 22px;">
         <p style="font-size:32px;font-weight:800;color:${s.color};font-family:'Barlow Condensed',sans-serif;line-height:1;margin-bottom:6px;">${s.value}</p>
-        <p style="font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);">${s.label}</p>
+        <p style="font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.7);">${s.label}</p>
       </div>`).join('');
 
     // Recent submissions
@@ -1192,7 +1192,7 @@
 
     const subEl = document.getElementById('dash-submissions');
     if (!submitted.length) {
-      subEl.innerHTML = `<p style="font-size:13px;color:rgba(255,255,255,0.2);padding:8px 0;">No submissions yet.</p>`;
+      subEl.innerHTML = `<p style="font-size:13px;color:rgba(255,255,255,0.7);padding:8px 0;">No submissions yet.</p>`;
     } else {
       subEl.innerHTML = submitted.map(p => {
         const photoCount = p.selectedPhotos?.length || 0;
@@ -1202,7 +1202,7 @@
           <span style="font-family:Impact,'Arial Narrow',Arial,sans-serif;font-size:15px;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0;min-width:28px;">#${escHtml(p.jersey || '—')}</span>
           <div style="flex:1;min-width:0;">
             <p style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(p.athleteFirst)} ${escHtml(p.athleteLast)}</p>
-            <p style="font-size:11px;color:rgba(255,255,255,0.3);">${escHtml(p.tournament || '—')} · ${photoCount} photo${photoCount !== 1 ? 's' : ''}</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.7);">${escHtml(p.tournament || '—')} · ${photoCount} photo${photoCount !== 1 ? 's' : ''}</p>
           </div>
           <span style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;padding:3px 8px;border-radius:100px;flex-shrink:0;${delivered ? 'background:rgba(57,211,83,0.1);color:#39D353;border:1px solid rgba(57,211,83,0.25);' : 'background:rgba(251,146,60,0.1);color:#fb923c;border:1px solid rgba(251,146,60,0.25);'}">${delivered ? 'Delivered' : 'Pending'}</span>
         </div>`;
@@ -1230,9 +1230,9 @@
           </div>
           <div style="flex:1;min-width:0;">
             <p style="font-size:13px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(c.firstName)} ${escHtml(c.lastName)}</p>
-            <p style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:1px;">${c.title ? escHtml(c.title) + ' · ' : ''}${escHtml(c.university || c.school || '')} · ${escHtml(c.sport || '')} · Joined ${joined}</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:1px;">${c.title ? escHtml(c.title) + ' · ' : ''}${escHtml(c.university || c.school || '')} · ${escHtml(c.sport || '')} · Joined ${joined}</p>
           </div>
-          <p style="font-size:11px;color:rgba(255,255,255,0.25);flex-shrink:0;margin-right:4px;">${escHtml(c.email)}</p>
+          <p style="font-size:11px;color:rgba(255,255,255,0.7);flex-shrink:0;margin-right:4px;">${escHtml(c.email)}</p>
           <div style="display:flex;gap:6px;flex-shrink:0;">
             <button onclick="approveCoach('${escJsAttr(c.id)}');renderDashboard();" style="padding:7px 16px;border-radius:7px;background:rgba(57,211,83,0.08);border:1px solid rgba(57,211,83,0.25);cursor:pointer;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#39D353;white-space:nowrap;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">✓ Approve</button>
             <button onclick="rejectCoach('${escJsAttr(c.id)}');renderDashboard();" style="padding:7px 16px;border-radius:7px;background:rgba(255,80,0,0.08);border:1px solid rgba(255,80,0,0.25);cursor:pointer;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#FF6B00;white-space:nowrap;transition:opacity 0.15s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">✕ Reject</button>
@@ -1242,7 +1242,7 @@
     } else {
       badge.style.display = 'none';
       wrap.style.borderColor = 'rgba(255,255,255,0.06)';
-      pcEl.innerHTML = `<p style="font-size:13px;color:rgba(255,255,255,0.2);padding:4px 0;">No coaches pending approval.</p>`;
+      pcEl.innerHTML = `<p style="font-size:13px;color:rgba(255,255,255,0.7);padding:4px 0;">No coaches pending approval.</p>`;
     }
 
     // Tournaments
@@ -1253,7 +1253,7 @@
       completed: { color: 'rgba(255,255,255,0.25)', label: 'Done' },
     };
     if (!tournaments.length) {
-      tEl.innerHTML = `<p style="font-size:13px;color:rgba(255,255,255,0.2);padding:8px 0;">No tournaments yet.</p>`;
+      tEl.innerHTML = `<p style="font-size:13px;color:rgba(255,255,255,0.7);padding:8px 0;">No tournaments yet.</p>`;
     } else {
       tEl.innerHTML = tournaments.slice(0, 6).map(t => {
         const sc = statusColors[t.status] || statusColors.upcoming;
@@ -1263,7 +1263,7 @@
         <div onclick="switchView('tournaments')" style="display:flex;align-items:center;gap:12px;padding:10px 12px;background:#1a1a1a;border:1px solid rgba(255,255,255,0.06);border-radius:9px;cursor:pointer;transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.18)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
           <div style="flex:1;min-width:0;">
             <p style="font-size:13px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(t.name)}</p>
-            <p style="font-size:11px;color:rgba(255,255,255,0.3);">${[dt, t.location ? escHtml(t.location) : null].filter(Boolean).join(' · ')} · ${pCount} player${pCount !== 1 ? 's' : ''}</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.7);">${[dt, t.location ? escHtml(t.location) : null].filter(Boolean).join(' · ')} · ${pCount} player${pCount !== 1 ? 's' : ''}</p>
           </div>
           <span style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:${sc.color};flex-shrink:0;">${sc.label}</span>
         </div>`;
@@ -1422,7 +1422,7 @@
           ? `<span class="badge badge-editing"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Being Edited</span>`
           : p.selectionSubmitted
             ? `<span class="badge badge-submitted">Selection Sent</span>`
-            : `<span class="badge" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.2);">No Selection</span>`;
+            : `<span class="badge" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);">No Selection</span>`;
 
       return `
       <div class="player-row fade-in">
@@ -1433,18 +1433,18 @@
         </div>
         <div style="flex:1;min-width:0;">
           <p style="font-weight:700;font-size:14px;color:#fff;margin-bottom:2px;">${escHtml(name)}</p>
-          <p style="font-size:11px;color:rgba(255,255,255,0.3);">${escHtml(p.email)} · ${escHtml(p.sport)} · ${escHtml(p.gradYear)}</p>
+          <p style="font-size:11px;color:rgba(255,255,255,0.7);">${escHtml(p.email)} · ${escHtml(p.sport)} · ${escHtml(p.gradYear)}</p>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
           ${purchaseBadge}${selectionBadge}
         </div>
         <div style="text-align:right;flex-shrink:0;min-width:110px;">
-          <p class="cond" style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);margin-bottom:2px;">${escHtml(p.tournament || 'No tournament')}</p>
-          <p class="cond" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.18);">Joined ${joined}</p>
+          <p class="cond" style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:2px;">${escHtml(p.tournament || 'No tournament')}</p>
+          <p class="cond" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Joined ${joined}</p>
         </div>
         ${(p.purchased && p.selectionSubmitted && !(p.deliveredPhotos && p.deliveredPhotos.length))
           ? `<button onclick="openPlayerToDeliver('${escJsAttr(p.id)}')" class="g-btn" style="border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#fff;white-space:nowrap;display:flex;align-items:center;gap:6px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Add Photos</button>`
-          : `<button onclick="openPlayer('${escJsAttr(p.id)}')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.4);transition:all 0.2s;white-space:nowrap;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.09)'">Manage →</button>`
+          : `<button onclick="openPlayer('${escJsAttr(p.id)}')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:all 0.2s;white-space:nowrap;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.09)'">Manage →</button>`
         }
       </div>`;
     }).join('');
@@ -1490,8 +1490,8 @@
           ${usedBadge}
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <span class="cond" style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);">Created ${date}</span>
-          ${!c.used ? `<button id="copy-${escAttr(c.code)}" onclick="copyCode('${escJsAttr(c.code)}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.5);transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Copy</button>` : ''}
+          <span class="cond" style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Created ${date}</span>
+          ${!c.used ? `<button id="copy-${escAttr(c.code)}" onclick="copyCode('${escJsAttr(c.code)}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Copy</button>` : ''}
         </div>
       </div>`;
     }).join('');
@@ -1528,8 +1528,8 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7B2FBE" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
           <div>
-            <p style="font-size:13px;font-weight:700;color:#fff;">${escHtml(label)}${isMe ? ' <span style="color:rgba(255,255,255,0.25);font-weight:400;">(you)</span>' : ''}</p>
-            <p style="font-size:11px;color:rgba(255,255,255,0.3);">Admin${m.username && m.email ? ' · ' + escHtml(m.username) : ''} · added ${date}</p>
+            <p style="font-size:13px;font-weight:700;color:#fff;">${escHtml(label)}${isMe ? ' <span style="color:rgba(255,255,255,0.7);font-weight:400;">(you)</span>' : ''}</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.7);">Admin${m.username && m.email ? ' · ' + escHtml(m.username) : ''} · added ${date}</p>
           </div>
         </div>
         ${isMe ? '' : `<button onclick="removeAdmin('${escJsAttr(m.id)}')" style="padding:7px 14px;border-radius:7px;background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.18);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,100,100,0.7);transition:opacity 0.15s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Remove</button>`}
@@ -1551,8 +1551,8 @@
           ${i.invited_email ? `<span class="badge badge-pending">${escHtml(i.invited_email)}</span>` : ''}
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
-          <span class="cond" style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.2);">Sent ${date}</span>
-          <button id="copy-inv-${escAttr(i.code)}" onclick="copyInviteCode('${escJsAttr(i.code)}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Copy</button>
+          <span class="cond" style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Sent ${date}</span>
+          <button id="copy-inv-${escAttr(i.code)}" onclick="copyInviteCode('${escJsAttr(i.code)}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Copy</button>
           <button onclick="revokeInvite('${escJsAttr(i.code)}')" style="background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.15);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,100,100,0.6);transition:all 0.2s;" onmouseover="this.style.color='#ff6464'" onmouseout="this.style.color='rgba(255,100,100,0.6)'">Revoke</button>
         </div>
       </div>`;
@@ -1581,12 +1581,12 @@
       <div style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:16px;max-width:420px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
         <div id="invite-modal-form">
           <h3 class="cond" style="font-size:18px;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;color:#fff;margin-bottom:6px;">Invite Team Member</h3>
-          <p style="font-size:12.5px;color:rgba(255,255,255,0.4);line-height:1.6;margin-bottom:18px;">Generates a one-time code. Send it to them — they'll use it to create their own admin login.</p>
-          <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:block;margin-bottom:7px;" for="invite-email">Their Email (optional)</label>
+          <p style="font-size:12.5px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:18px;">Generates a one-time code. Send it to them — they'll use it to create their own admin login.</p>
+          <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);display:block;margin-bottom:7px;" for="invite-email">Their Email (optional)</label>
           <input class="field" type="email" id="invite-email" placeholder="name@example.com" style="margin-bottom:18px;" onkeydown="if(event.key==='Enter')submitGenerateInvite()">
           <p id="invite-modal-err" style="display:none;font-size:12px;color:#f87171;margin-bottom:14px;"></p>
           <div style="display:flex;gap:10px;">
-            <button onclick="closeInviteModal()" style="flex:1;padding:12px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Cancel</button>
+            <button onclick="closeInviteModal()" style="flex:1;padding:12px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Cancel</button>
             <button id="invite-generate-btn" onclick="submitGenerateInvite()" class="g-btn cond" style="flex:1;padding:12px;border-radius:8px;color:#fff;font-size:12px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;">Generate Code</button>
           </div>
         </div>
@@ -1594,13 +1594,13 @@
           <div style="width:52px;height:52px;border-radius:50%;background:rgba(57,211,83,0.12);border:1px solid rgba(57,211,83,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#39D353" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           </div>
-          <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:10px;">Share this code — it works once:</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:10px;">Share this code — it works once:</p>
           <p id="invite-modal-code" style="font-family:Impact,'Arial Narrow',Arial,sans-serif;font-size:28px;letter-spacing:0.08em;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:18px;"></p>
           <div style="display:flex;gap:10px;">
             <button onclick="copyGeneratedInviteCode()" id="invite-copy-btn" style="flex:1;padding:12px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Copy Code</button>
             <a id="invite-email-link" href="#" style="flex:1;padding:12px;border-radius:8px;background:rgba(30,144,255,0.1);border:1px solid rgba(30,144,255,0.3);color:#1E90FF;font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;text-align:center;">Email It</a>
           </div>
-          <button onclick="closeInviteModal();loadTeam();" style="width:100%;margin-top:10px;padding:11px;border-radius:8px;background:none;border:none;color:rgba(255,255,255,0.3);font-size:12px;cursor:pointer;">Done</button>
+          <button onclick="closeInviteModal();loadTeam();" style="width:100%;margin-top:10px;padding:11px;border-radius:8px;background:none;border:none;color:rgba(255,255,255,0.7);font-size:12px;cursor:pointer;">Done</button>
         </div>
       </div>`;
     document.body.appendChild(overlay);
@@ -1765,10 +1765,10 @@
     if (p.purchased) {
       status.style.cssText = 'border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;background:rgba(57,211,83,0.08);border:1px solid rgba(57,211,83,0.2);';
       status.innerHTML = `<span class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#39D353;">✓ Purchased</span>
-        <button onclick="togglePurchased('${escJsAttr(id)}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);">Mark Unpurchased</button>`;
+        <button onclick="togglePurchased('${escJsAttr(id)}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Mark Unpurchased</button>`;
     } else {
       status.style.cssText = 'border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);';
-      status.innerHTML = `<span class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Not Purchased</span>
+      status.innerHTML = `<span class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Not Purchased</span>
         <button onclick="togglePurchased('${escJsAttr(id)}')" class="g-btn" style="border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#fff;">Mark Purchased</button>`;
     }
 
@@ -1797,13 +1797,13 @@
       contactBar.style.display = 'block';
       contactRows.innerHTML = contacts.map(c => `
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <span style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.2);min-width:44px;">${c.label}</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.7);min-width:44px;">${c.label}</span>
           ${c.email ? `
             <a href="mailto:${escAttr(c.email)}" style="display:flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;text-decoration:none;transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
               <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <span style="font-size:11px;color:rgba(255,255,255,0.55);">${escHtml(c.email)}</span>
+              <span style="font-size:11px;color:rgba(255,255,255,0.7);">${escHtml(c.email)}</span>
             </a>
-            <button onclick="navigator.clipboard.writeText('${escJsAttr(c.email)}');this.textContent='✓';setTimeout(()=>this.textContent='Copy',1200)" style="padding:4px 9px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);transition:all 0.15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.3)'">Copy</button>` : ''}
+            <button onclick="navigator.clipboard.writeText('${escJsAttr(c.email)}');this.textContent='✓';setTimeout(()=>this.textContent='Copy',1200)" style="padding:4px 9px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:100px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:all 0.15s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Copy</button>` : ''}
           ${c.phone ? `
             <a href="tel:${escAttr(c.phone)}" style="display:flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(57,211,83,0.05);border:1px solid rgba(57,211,83,0.15);border-radius:100px;text-decoration:none;transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(57,211,83,0.4)'" onmouseout="this.style.borderColor='rgba(57,211,83,0.15)'">
               <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(57,211,83,0.6)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
@@ -1887,7 +1887,7 @@
         thumbGrid.innerHTML = photos.map((src, i) => `
           <div style="position:relative;border-radius:7px;overflow:hidden;aspect-ratio:3/4;background:#1a1a1a;">
             <img alt="Tournament photo" src="${escAttr(src)}" style="width:100%;height:100%;object-fit:cover;display:block;" onerror="this.style.display='none';this.parentNode.style.background='#2a1a1a';">
-            <button onclick="removeDeliveredPhoto(${i})" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-size:10px;line-height:1;" title="Remove">×</button>
+            <button onclick="removeDeliveredPhoto(${i})" style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.7);font-size:10px;line-height:1;" title="Remove">×</button>
           </div>`).join('');
       } else {
         thumbWrap.style.display = 'none';
@@ -1949,10 +1949,10 @@
     const upBtn  = document.getElementById('tab-upload');
     if (isUrl) {
       urlBtn.style.background = 'rgba(30,144,255,0.15)'; urlBtn.style.color = '#1E90FF';
-      upBtn.style.background  = 'transparent';           upBtn.style.color  = 'rgba(255,255,255,0.3)';
+      upBtn.style.background  = 'transparent';           upBtn.style.color  = 'rgba(255,255,255,0.7)';
     } else {
       upBtn.style.background  = 'rgba(30,144,255,0.15)'; upBtn.style.color  = '#1E90FF';
-      urlBtn.style.background = 'transparent';            urlBtn.style.color = 'rgba(255,255,255,0.3)';
+      urlBtn.style.background = 'transparent';            urlBtn.style.color = 'rgba(255,255,255,0.7)';
     }
   }
 
@@ -2133,11 +2133,11 @@
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           </div>
           <p id="import-progress-title" style="font-family:'Barlow Condensed',Impact,sans-serif;font-size:20px;font-weight:800;letter-spacing:0.04em;text-transform:uppercase;color:#fff;margin-bottom:6px;">Importing photos…</p>
-          <p id="import-progress-sub" style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:18px;">Reading the Dropbox folder…</p>
+          <p id="import-progress-sub" style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:18px;">Reading the Dropbox folder…</p>
           <div style="height:10px;border-radius:6px;background:rgba(255,255,255,0.08);overflow:hidden;">
             <div id="import-progress-bar" style="height:100%;width:0%;border-radius:6px;background:linear-gradient(90deg,#1E90FF,#00C9A7,#39D353);transition:width 0.25s ease;"></div>
           </div>
-          <p id="import-progress-count" style="font-size:12px;color:rgba(255,255,255,0.35);margin-top:10px;">Preparing…</p>
+          <p id="import-progress-count" style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:10px;">Preparing…</p>
         </div>`;
       document.body.appendChild(o);
     }
@@ -2328,23 +2328,23 @@
         <div style="flex:1;min-width:0;">
           <p style="font-weight:600;font-size:14px;color:#fff;margin-bottom:4px;">${escHtml(t.name)}</p>
           <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
-            ${dt ? `<span style="font-size:12px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:5px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${dt}</span>` : ''}
-            ${t.location ? `<span style="font-size:12px;color:rgba(255,255,255,0.35);display:flex;align-items:center;gap:5px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${escHtml(t.location)}</span>` : ''}
-            <span style="font-size:12px;color:rgba(255,255,255,0.35);">${escHtml(t.sport)}</span>
-            <span style="font-size:12px;color:rgba(255,255,255,0.25);">${playerCount} player${playerCount !== 1 ? 's' : ''}</span>
+            ${dt ? `<span style="font-size:12px;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:5px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${dt}</span>` : ''}
+            ${t.location ? `<span style="font-size:12px;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:5px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>${escHtml(t.location)}</span>` : ''}
+            <span style="font-size:12px;color:rgba(255,255,255,0.7);">${escHtml(t.sport)}</span>
+            <span style="font-size:12px;color:rgba(255,255,255,0.7);">${playerCount} player${playerCount !== 1 ? 's' : ''}</span>
           </div>
         </div>
         <!-- Right: status + actions -->
         <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
           <span class="badge" style="background:${s.bg};border:1px solid ${s.border};color:${s.color};">${s.label}</span>
           <div style="position:relative;display:inline-block;">
-            <select onchange="setTournamentStatus('${escJsAttr(t.id)}', this.value)" aria-label="Tournament status" style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.09);border-radius:7px;padding:6px 28px 6px 10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);outline:none;appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 8px center;">
+            <select onchange="setTournamentStatus('${escJsAttr(t.id)}', this.value)" aria-label="Tournament status" style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.09);border-radius:7px;padding:6px 28px 6px 10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);outline:none;appearance:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E&quot;);background-repeat:no-repeat;background-position:right 8px center;">
               <option value="upcoming"  ${t.status==='upcoming'  ? 'selected':''}>Upcoming</option>
               <option value="active"    ${t.status==='active'    ? 'selected':''}>Active</option>
               <option value="completed" ${t.status==='completed' ? 'selected':''}>Completed</option>
             </select>
           </div>
-          <button onclick="openTournament('${escJsAttr(t.id)}')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.4);transition:all 0.2s;white-space:nowrap;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.4)';this.style.borderColor='rgba(255,255,255,0.09)'">Manage →</button>
+          <button onclick="openTournament('${escJsAttr(t.id)}')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:all 0.2s;white-space:nowrap;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.09)'">Manage →</button>
           <button onclick="deleteTournament('${escJsAttr(t.id)}')" aria-label="Delete tournament" style="width:32px;height:32px;border-radius:7px;background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,60,60,0.14)'" onmouseout="this.style.background='rgba(255,60,60,0.06)'">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,100,100,0.7)" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
           </button>
@@ -2365,10 +2365,10 @@
 
     const dt = t.date ? new Date(t.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : null;
     document.getElementById('t-drawer-meta').innerHTML = [
-      dt         ? `<span style="font-size:12px;color:rgba(255,255,255,0.4);display:flex;align-items:center;gap:5px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${dt}</span>` : '',
-      t.location ? `<span style="font-size:12px;color:rgba(255,255,255,0.4);">${escHtml(t.location)}</span>` : '',
-      t.sport    ? `<span style="font-size:12px;color:rgba(255,255,255,0.4);">${escHtml(t.sport)}</span>` : '',
-    ].filter(Boolean).join('<span style="color:rgba(255,255,255,0.12);">·</span>');
+      dt         ? `<span style="font-size:12px;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:5px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${dt}</span>` : '',
+      t.location ? `<span style="font-size:12px;color:rgba(255,255,255,0.7);">${escHtml(t.location)}</span>` : '',
+      t.sport    ? `<span style="font-size:12px;color:rgba(255,255,255,0.7);">${escHtml(t.sport)}</span>` : '',
+    ].filter(Boolean).join('<span style="color:rgba(255,255,255,0.7);">·</span>');
 
     // Dropbox link
     const empty = document.getElementById('t-drawer-dropbox-empty');
@@ -2413,9 +2413,9 @@
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <div>
               <p class="cond" style="font-size:13px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#fff;margin:0;">${name}</p>
-              <p style="font-size:11px;color:rgba(255,255,255,0.3);margin:2px 0 0;">${escHtml(p.sport || '')}</p>
+              <p style="font-size:11px;color:rgba(255,255,255,0.7);margin:2px 0 0;">${escHtml(p.sport || '')}</p>
             </div>
-            ${url ? `<span style="font-size:10px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#39D353;background:rgba(57,211,83,0.08);border:1px solid rgba(57,211,83,0.2);border-radius:6px;padding:3px 8px;">Link Set</span>` : `<span style="font-size:10px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:3px 8px;">No Link</span>`}
+            ${url ? `<span style="font-size:10px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:#39D353;background:rgba(57,211,83,0.08);border:1px solid rgba(57,211,83,0.2);border-radius:6px;padding:3px 8px;">Link Set</span>` : `<span style="font-size:10px;font-weight:700;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:3px 8px;">No Link</span>`}
           </div>
           <div style="display:flex;gap:8px;align-items:center;">
             <input
@@ -2550,7 +2550,7 @@
     document.getElementById('coach-stats-grid').innerHTML = statCards.map(s => `
       <div style="background:${s.bg};border:1px solid ${s.border};border-radius:12px;padding:20px 22px;">
         <p style="font-size:32px;font-weight:800;color:${s.color};font-family:'Barlow Condensed',sans-serif;line-height:1;margin-bottom:6px;">${s.value}</p>
-        <p style="font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.3);">${s.label}</p>
+        <p style="font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.7);">${s.label}</p>
       </div>`).join('');
 
     const list  = document.getElementById('coach-list');
@@ -2577,12 +2577,12 @@
         <!-- Info -->
         <div style="flex:1;min-width:0;">
           <p style="font-weight:700;font-size:14px;color:#fff;margin-bottom:2px;">${escHtml(c.firstName)} ${escHtml(c.lastName)}</p>
-          <p style="font-size:11px;color:rgba(255,255,255,0.3);">${c.title ? escHtml(c.title) + ' · ' : ''}${escHtml(c.school)} · ${escHtml(c.sport)}</p>
+          <p style="font-size:11px;color:rgba(255,255,255,0.7);">${c.title ? escHtml(c.title) + ' · ' : ''}${escHtml(c.school)} · ${escHtml(c.sport)}</p>
         </div>
         <!-- Meta -->
         <div style="text-align:right;flex-shrink:0;min-width:120px;">
-          <p style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:2px;">${escHtml(c.email)}</p>
-          <p class="cond" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.2);">${msgCount} thread${msgCount !== 1 ? 's' : ''} · Joined ${joined}</p>
+          <p style="font-size:12px;color:rgba(255,255,255,0.7);margin-bottom:2px;">${escHtml(c.email)}</p>
+          <p class="cond" style="font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.7);">${msgCount} thread${msgCount !== 1 ? 's' : ''} · Joined ${joined}</p>
         </div>
         <!-- Status badge -->
         ${isVerified
@@ -2592,7 +2592,7 @@
         <!-- Actions -->
         <div style="display:flex;gap:8px;flex-shrink:0;">
           ${isVerified
-            ? `<button onclick="revokeCoach('${escJsAttr(c.id)}')" style="padding:7px 14px;border-radius:7px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.35);white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">Revoke</button>`
+            ? `<button onclick="revokeCoach('${escJsAttr(c.id)}')" style="padding:7px 14px;border-radius:7px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.7);white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">Revoke</button>`
             : `<button onclick="approveCoach('${escJsAttr(c.id)}')" style="padding:7px 14px;border-radius:7px;background:rgba(57,211,83,0.08);border:1px solid rgba(57,211,83,0.25);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#39D353;white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">✓ Approve</button>
                <button onclick="rejectCoach('${escJsAttr(c.id)}')" style="padding:7px 14px;border-radius:7px;background:rgba(255,80,0,0.08);border:1px solid rgba(255,80,0,0.25);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#FF6B00;white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">✕ Reject</button>`
           }
@@ -2723,12 +2723,12 @@
           </button>`;
       return `
         <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:#141414;border:1px solid rgba(255,255,255,0.07);border-radius:12px;margin-bottom:8px;">
-          <div style="width:42px;height:42px;border-radius:50%;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:rgba(255,255,255,0.4);">
+          <div style="width:42px;height:42px;border-radius:50%;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:rgba(255,255,255,0.7);">
             ${p.profilePhoto ? `<img alt="" src="${escAttr(p.profilePhoto)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : escHtml(initials)}
           </div>
           <div style="flex:1;min-width:0;">
-            <p style="font-size:14px;font-weight:700;color:#fff;">${escHtml(p.athleteFirst || '')} ${escHtml(p.athleteLast || '')} <span style="color:rgba(255,255,255,0.3);font-weight:400;">#${escHtml(p.jersey || '—')}</span></p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:2px;">${escHtml(p.sport || 'No sport')} · ${escHtml(p.school || 'No school')}</p>
+            <p style="font-size:14px;font-weight:700;color:#fff;">${escHtml(p.athleteFirst || '')} ${escHtml(p.athleteLast || '')} <span style="color:rgba(255,255,255,0.7);font-weight:400;">#${escHtml(p.jersey || '—')}</span></p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:2px;">${escHtml(p.sport || 'No sport')} · ${escHtml(p.school || 'No school')}</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
             ${sendBtn}
@@ -2812,7 +2812,7 @@
         ? (r.type === 'video'
             ? `<video src="${escHtml(r.mediaData)}" muted playsinline preload="metadata" style="width:100%;height:100%;object-fit:cover;"></video>`
             : `<img alt="Post photo" src="${escHtml(r.mediaData)}" style="width:100%;height:100%;object-fit:cover;">`)
-        : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.15);font-size:10px;text-align:center;padding:4px;">No media</div>`;
+        : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(255,255,255,0.7);font-size:10px;text-align:center;padding:4px;">No media</div>`;
       return `
       <div class="player-row fade-in" style="align-items:flex-start;">
         <div style="width:64px;height:64px;border-radius:10px;overflow:hidden;background:#111;border:1px solid rgba(255,255,255,0.07);flex-shrink:0;">${media}</div>
@@ -2821,13 +2821,13 @@
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#ff4d6d" stroke-width="2.2" stroke-linecap="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             <span style="font-size:11px;font-weight:700;color:#ff4d6d;">${escHtml(r.reason || 'Reported')}</span>
           </div>
-          <p style="font-weight:700;font-size:14px;color:#fff;margin-bottom:2px;">${escHtml(r.authorName || 'Unknown')} <span style="font-weight:400;color:rgba(255,255,255,0.3);font-size:12px;">· post author</span></p>
-          <p style="font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px;">${r.caption ? escHtml(r.caption) : '<em style="color:rgba(255,255,255,0.2);">No caption</em>'}</p>
-          <p style="font-size:12px;color:rgba(255,255,255,0.3);">Reported by ${escHtml(r.reporterName || 'Someone')} <span style="color:rgba(255,255,255,0.2);">(${escHtml(r.reporterRole || 'user')})</span> · ${date}</p>
+          <p style="font-weight:700;font-size:14px;color:#fff;margin-bottom:2px;">${escHtml(r.authorName || 'Unknown')} <span style="font-weight:400;color:rgba(255,255,255,0.7);font-size:12px;">· post author</span></p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:6px;">${r.caption ? escHtml(r.caption) : '<em style="color:rgba(255,255,255,0.7);">No caption</em>'}</p>
+          <p style="font-size:12px;color:rgba(255,255,255,0.7);">Reported by ${escHtml(r.reporterName || 'Someone')} <span style="color:rgba(255,255,255,0.7);">(${escHtml(r.reporterRole || 'user')})</span> · ${date}</p>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
           <button onclick="deleteReportedPost('${escJsAttr(r.postId)}')" style="padding:8px 14px;border-radius:7px;background:rgba(255,60,60,0.08);border:1px solid rgba(255,60,60,0.22);cursor:pointer;color:#ff6464;font-size:12px;font-weight:700;letter-spacing:0.04em;transition:background 0.2s;white-space:nowrap;" onmouseover="this.style.background='rgba(255,60,60,0.16)'" onmouseout="this.style.background='rgba(255,60,60,0.08)'">Delete Post</button>
-          <button onclick="dismissReport('${escJsAttr(r.id)}')" style="padding:8px 14px;border-radius:7px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);cursor:pointer;color:rgba(255,255,255,0.55);font-size:12px;font-weight:700;letter-spacing:0.04em;transition:color 0.2s;white-space:nowrap;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Dismiss</button>
+          <button onclick="dismissReport('${escJsAttr(r.id)}')" style="padding:8px 14px;border-radius:7px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);cursor:pointer;color:rgba(255,255,255,0.7);font-size:12px;font-weight:700;letter-spacing:0.04em;transition:color 0.2s;white-space:nowrap;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Dismiss</button>
         </div>
       </div>`;
     }).join('');
