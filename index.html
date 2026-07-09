@@ -513,18 +513,14 @@
       <!-- ── TEAM ACCESS VIEW ───────────────────────────────────────────────── -->
       <div id="view-team" style="display:none;">
         <div style="background:#141414;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
-          <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;">Generate a one-time invite code for a new admin. Share it with them — they'll set their own username and password to create their own login.</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;">To add an admin: create their login in Supabase (Authentication → Users → Add User), then add their user id to the <span style="color:rgba(255,255,255,0.6);font-weight:600;">admins</span> table. Remove access here any time.</p>
         </div>
 
-        <p class="nav-section-label" style="padding:0 0 8px;">Team Members</p>
+        <p class="nav-section-label" style="padding:0 0 8px;">Admins</p>
         <div id="team-list" class="space-y-2" style="margin-bottom:24px;"></div>
         <div id="team-empty" class="empty-state" style="display:none;">
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">No team members yet</p>
+          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.2);">No admins yet</p>
         </div>
-
-        <p class="nav-section-label" style="padding:0 0 8px;">Pending Invites</p>
-        <div id="invites-list" class="space-y-2"></div>
-        <div id="invites-empty" style="display:none;font-size:13px;color:rgba(255,255,255,0.2);padding:8px 0;">No pending invites.</div>
       </div>
 
       <!-- ── SETTINGS VIEW ──────────────────────────────────────────────────── -->
@@ -1157,7 +1153,7 @@
     else if (view === 'coaches')        { renderCoaches(); document.getElementById('topbar-actions').innerHTML = ''; }
     else if (view === 'needs-editing')  { renderNeedsEditing(); document.getElementById('topbar-actions').innerHTML = ''; }
     else if (view === 'reports')        { renderReports(); document.getElementById('topbar-actions').innerHTML = ''; }
-    else if (view === 'team')           { loadTeam(); document.getElementById('topbar-actions').innerHTML = `<button onclick="openInviteModal()" class="g-btn cond text-xs font-black tracking-[0.14em] uppercase text-white px-5 py-2.5 rounded-lg">+ Invite Team Member</button>`; }
+    else if (view === 'team')           { loadTeam(); document.getElementById('topbar-actions').innerHTML = `<button onclick="openInviteModal()" class="g-btn cond text-xs font-black tracking-[0.14em] uppercase text-white px-5 py-2.5 rounded-lg">+ Add Admin</button>`; }
     else if (view === 'settings')       { openSettingsView(); document.getElementById('topbar-actions').innerHTML = ''; }
     else document.getElementById('topbar-actions').innerHTML = `<button onclick="generateCode()" class="g-btn cond text-xs font-black tracking-[0.14em] uppercase text-white px-5 py-2.5 rounded-lg">+ Generate Code</button>`;
   }
@@ -1506,18 +1502,10 @@
   // _adminUser/_adminPass server-side before doing anything — the anon key
   // alone can never read or modify admin_users.
   async function loadTeam() {
-    if (!_adminUser || !_adminPass) {
-      renderTeamList([]);
-      renderInvitesList([]);
-      return;
-    }
+    if (!_adminUser) { renderTeamList([]); return; }
     try {
-      const [{ data: members, error: mErr }, { data: invites, error: iErr }] = await Promise.all([
-        _SB.rpc('list_admin_team',     { p_username: _adminUser, p_password: _adminPass }),
-        _SB.rpc('list_pending_invites', { p_username: _adminUser, p_password: _adminPass }),
-      ]);
-      renderTeamList(mErr ? [] : (members || []));
-      renderInvitesList(iErr ? [] : (invites || []));
+      const { data, error } = await _SB.rpc('admin_list_admins');
+      renderTeamList(error ? [] : (data || []));
     } catch (e) {
       console.warn('[admin] team load failed:', e.message);
     }
@@ -1531,7 +1519,8 @@
     empty.style.display = 'none';
     list.innerHTML = members.map(m => {
       const date = new Date(m.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      const isMe = _adminUser && m.username.toLowerCase() === _adminUser.toLowerCase();
+      const isMe = _adminUser && (m.email || '').toLowerCase() === _adminUser.toLowerCase();
+      const label = m.email || m.username || '—';
       return `
       <div class="player-row fade-in" style="justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:14px;">
@@ -1539,11 +1528,11 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7B2FBE" stroke-width="1.8" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </div>
           <div>
-            <p style="font-size:13px;font-weight:700;color:#fff;">${escHtml(m.username)}${isMe ? ' <span style="color:rgba(255,255,255,0.25);font-weight:400;">(you)</span>' : ''}</p>
-            <p style="font-size:11px;color:rgba(255,255,255,0.3);">Joined ${date}</p>
+            <p style="font-size:13px;font-weight:700;color:#fff;">${escHtml(label)}${isMe ? ' <span style="color:rgba(255,255,255,0.25);font-weight:400;">(you)</span>' : ''}</p>
+            <p style="font-size:11px;color:rgba(255,255,255,0.3);">Admin${m.username && m.email ? ' · ' + escHtml(m.username) : ''} · added ${date}</p>
           </div>
         </div>
-        ${isMe ? '' : `<button onclick="removeTeamMember('${escJsAttr(m.username)}')" style="padding:7px 14px;border-radius:7px;background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.18);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,100,100,0.7);transition:opacity 0.15s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Remove</button>`}
+        ${isMe ? '' : `<button onclick="removeAdmin('${escJsAttr(m.id)}')" style="padding:7px 14px;border-radius:7px;background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.18);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,100,100,0.7);transition:opacity 0.15s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">Remove</button>`}
       </div>`;
     }).join('');
   }
@@ -1667,15 +1656,11 @@
     });
   }
 
-  async function removeTeamMember(username) {
-    if (!_adminUser || !_adminPass) return;
-    if (!confirm(`Remove ${username} from the admin team? They'll lose access immediately.`)) return;
+  async function removeAdmin(id) {
+    if (!_adminUser) return;
+    if (!confirm('Remove this admin? They will lose panel access immediately. (Their Supabase login still exists — delete it in the dashboard to remove it entirely.)')) return;
     try {
-      const { error } = await _SB.rpc('remove_admin_team_member', {
-        p_username: _adminUser,
-        p_password: _adminPass,
-        p_target_username: username,
-      });
+      const { error } = await _SB.rpc('admin_remove_admin', { p_id: id });
       if (error) { alert('Could not remove: ' + error.message); return; }
       loadTeam();
     } catch (e) {
@@ -1710,7 +1695,7 @@
   }
 
   async function submitChangePassword() {
-    if (!_adminUser || !_adminPass) return;
+    if (!_adminUser) return;
     const cur  = document.getElementById('set-cur-pw').value;
     const next = document.getElementById('set-new-pw').value;
     const next2 = document.getElementById('set-new-pw2').value;
@@ -1741,18 +1726,19 @@
     btn.textContent = 'Saving…';
 
     try {
-      const { data, error } = await _SB.rpc('change_admin_password', {
-        p_username: _adminUser,
-        p_current_password: cur,
-        p_new_password: next,
-      });
-      const row = Array.isArray(data) ? data[0] : data;
-      if (error || !row || !row.ok) {
-        err.textContent = (row && row.message) || 'Could not change password — try again.';
+      // Verify the current password by re-authenticating, then update via Supabase Auth.
+      const { error: reauthErr } = await _SB.auth.signInWithPassword({ email: _adminUser, password: cur });
+      if (reauthErr) {
+        err.textContent = 'Current password is incorrect.';
         err.style.display = 'block';
         return;
       }
-      _adminPass = next; // keep in-memory session in sync so Team Access etc. keep working
+      const { error: updErr } = await _SB.auth.updateUser({ password: next });
+      if (updErr) {
+        err.textContent = updErr.message || 'Could not change password — try again.';
+        err.style.display = 'block';
+        return;
+      }
       document.getElementById('set-cur-pw').value = '';
       document.getElementById('set-new-pw').value = '';
       document.getElementById('set-new-pw2').value = '';
