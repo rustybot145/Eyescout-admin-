@@ -260,8 +260,13 @@ function _sbPaginate(query, opt, key) {
 // Explicit column lists — exactly the columns each _rowTo* converter reads, so
 // we never pull a whole row (`select('*')`) when only a subset is used. Keep
 // each list in sync with its converter above.
-const _SEL_PLAYER = 'id, email, athlete_first, athlete_last, sport, jersey, school, grad_year, phone, parent_first, parent_last, parent_email, parent_phone, zip, purchased, selection_submitted, selected_photos, photos_ready, delivered_photos, photo_package_size, total_photo_count, watermarked_dropbox_url, selection_dropbox_url, dropbox_url, profile_photo, bio, position, club_team, height, weight, achievements, stats, own_photos, own_clips, prefs, submitted_at, created_at, role';
-const _SEL_COACH  = 'id, email, athlete_first, athlete_last, title, sport, school, division, years, link, phone, bio, profile_photo, banner_photo, verified, created_at';
+// Contact PII (email, phone, parent_*, zip) is intentionally NOT selected here.
+// Those columns are revoked at the DB (supabase-phase1c-pii-contact.sql) so they
+// can't be bulk-harvested; the CURRENT user's own contact is re-attached after a
+// sync via the my_contact() RPC, and another player's (only if they opted in) is
+// fetched on demand via _sbPlayerContact(). Keep these lists free of those 7 cols.
+const _SEL_PLAYER = 'id, athlete_first, athlete_last, sport, jersey, school, grad_year, purchased, selection_submitted, selected_photos, photos_ready, delivered_photos, photo_package_size, total_photo_count, watermarked_dropbox_url, selection_dropbox_url, dropbox_url, profile_photo, bio, position, club_team, height, weight, achievements, stats, own_photos, own_clips, prefs, submitted_at, created_at, role';
+const _SEL_COACH  = 'id, athlete_first, athlete_last, title, sport, school, division, years, link, bio, profile_photo, banner_photo, verified, created_at';
 const _SEL_POST   = 'id, author_id, author_name, author_jersey, sport, media_type, media_data, caption, tournament, likes_data, created_at';
 const _SEL_TOURNEY = 'id, name, date, location, sport, status, dropbox_url, photos, created_at';
 const _SEL_FOLLOW = 'follower_id, followee_id, created_at';
@@ -405,10 +410,64 @@ async function _sbSync(opts = {}) {
     }
   });
 
+  // Re-attach the CURRENT user's own contact PII (email/phone/parent/zip), which
+  // is deliberately stripped from the bulk selects above. Uses the owner-only
+  // my_contact() RPC so Settings / the user's own profile still show it. Other
+  // users' contact is never bulk-loaded — it's fetched on demand + opt-in-gated
+  // by _sbPlayerContact(). Fails soft (blank) if the RPC isn't deployed yet.
+  if (uid) {
+    try {
+      const { data: cRows } = await _SB.rpc('my_contact');
+      const c = Array.isArray(cRows) ? cRows[0] : cRows;
+      if (c) {
+        const patch = {
+          email:       c.email        || '',
+          phone:       c.phone        || '',
+          parentFirst: c.parent_first || '',
+          parentLast:  c.parent_last  || '',
+          parentEmail: c.parent_email || '',
+          parentPhone: c.parent_phone || '',
+          zip:         c.zip          || '',
+        };
+        const s = JSON.parse(localStorage.getItem('es_session') || 'null');
+        if (s && s.id === uid) localStorage.setItem('es_session', JSON.stringify({ ...s, ...patch }));
+        const cs = JSON.parse(localStorage.getItem('es_coach_session') || 'null');
+        if (cs && cs.id === uid) localStorage.setItem('es_coach_session', JSON.stringify({ ...cs, ...patch }));
+        const players = JSON.parse(localStorage.getItem('es_players') || '[]');
+        let touched = false;
+        players.forEach(pl => { if (pl.id === uid) { Object.assign(pl, patch); touched = true; } });
+        if (touched) localStorage.setItem('es_players', JSON.stringify(players));
+      }
+    } catch (e) { /* contact stays blank until the my_contact RPC is deployed */ }
+  }
+
   // Fresh player/coach data may include an updated photo — repaint the sidebar.
   if (typeof paintSidebarAvatar === 'function') paintSidebarAvatar();
   // A synced notification may be a post-takedown notice → show the one-time pop-up.
   if (typeof showPostRemovedPopup === 'function') showPostRemovedPopup();
+}
+
+// Fetch one player's contact (email/phone/parent/zip) on demand. The DB only
+// returns it if that player opted in (prefs.priv-contact = 'true') or it's you;
+// otherwise every field comes back empty. Returns a legacy-shaped object so the
+// caller can merge it straight onto a player object. Used by the profile info tab.
+async function _sbPlayerContact(playerId) {
+  const blank = { email: '', phone: '', parentFirst: '', parentLast: '', parentEmail: '', parentPhone: '', zip: '' };
+  if (!playerId) return blank;
+  try {
+    const { data } = await _SB.rpc('player_contact', { p_id: playerId });
+    const c = Array.isArray(data) ? data[0] : data;
+    if (!c) return blank;
+    return {
+      email:       c.email        || '',
+      phone:       c.phone        || '',
+      parentFirst: c.parent_first || '',
+      parentLast:  c.parent_last  || '',
+      parentEmail: c.parent_email || '',
+      parentPhone: c.parent_phone || '',
+      zip:         c.zip          || '',
+    };
+  } catch (e) { return blank; }
 }
 
 // ── Supabase Storage image upload ─────────────────────────────────────────────

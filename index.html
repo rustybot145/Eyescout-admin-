@@ -157,8 +157,8 @@
     </div>
     <div style="background:#141414;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:28px;">
       <div style="margin-bottom:16px;">
-        <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:block;margin-bottom:7px;" for="admin-user">Username</label>
-        <input class="field" type="text" id="admin-user" placeholder="Enter admin username" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('admin-pw').focus()">
+        <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:block;margin-bottom:7px;" for="admin-user">Email</label>
+        <input class="field" type="email" id="admin-user" placeholder="Enter admin email" autocomplete="username" onkeydown="if(event.key==='Enter')document.getElementById('admin-pw').focus()">
       </div>
       <div style="margin-bottom:16px;">
         <label class="cond" style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.35);display:block;margin-bottom:7px;" for="admin-pw">Password</label>
@@ -1043,14 +1043,14 @@
 
   // ── Auth ──────────────────────────────────────────────────────────────────
   async function checkLogin() {
-    const username = document.getElementById('admin-user').value.trim();
+    const email = document.getElementById('admin-user').value.trim();
     const password = document.getElementById('admin-pw').value;
     const btn = document.getElementById('admin-signin-btn');
     const err = document.getElementById('admin-err');
     err.style.display = 'none';
 
-    if (!username || !password) {
-      err.textContent = 'Enter a username and password.';
+    if (!email || !password) {
+      err.textContent = 'Enter your email and password.';
       err.style.display = 'block';
       return;
     }
@@ -1060,19 +1060,25 @@
     btn.textContent = 'Signing In…';
 
     try {
-      const { data, error } = await _SB.rpc('verify_admin_login', {
-        p_username: username,
-        p_password: password,
-      });
-
-      if (error || data !== true) {
-        err.textContent = 'Incorrect username or password.';
+      // 1) Authenticate with Supabase Auth (admins are Auth users now).
+      const { error: authErr } = await _SB.auth.signInWithPassword({ email, password });
+      if (authErr) {
+        err.textContent = 'Incorrect email or password.';
         err.style.display = 'block';
         return;
       }
-
-      _adminUser = username;
-      _adminPass = password;
+      // 2) Confirm this account is actually an admin (listed in the admins table).
+      const { data: ok, error: adminErr } = await _SB.rpc('is_admin');
+      if (adminErr || ok !== true) {
+        await _SB.auth.signOut().catch(() => {});
+        err.textContent = 'That account isn’t an admin.';
+        err.style.display = 'block';
+        return;
+      }
+      // The admin's Supabase Auth token now carries identity; the admin_* functions
+      // accept it via is_admin(), so no bcrypt password is threaded through.
+      _adminUser = email;
+      _adminPass = '';
       enterAdmin();
     } catch (e) {
       err.textContent = 'Login failed — check your connection and try again.';
@@ -1119,7 +1125,8 @@
     }, 30000);
   }
 
-  function adminLogout() {
+  async function adminLogout() {
+    await _SB.auth.signOut().catch(() => {});
     document.getElementById('app-shell').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('admin-user').value = '';
@@ -1573,10 +1580,11 @@
   let _lastGeneratedInviteCode = null;
 
   function openInviteModal() {
-    if (!_adminUser || !_adminPass) {
-      alert('Sign in with your real username and password to invite a team member (the dev skip-login button can\'t do this).');
-      return;
-    }
+    // Team management is moving to Supabase Auth. Admins are now created in the
+    // Supabase dashboard (Authentication → Users) and granted via the admins
+    // table — the old in-app invite-code flow is being retired.
+    alert('Admin accounts are now managed in Supabase: add a user under Authentication → Users, then grant them admin access. In-app invites are being retired.');
+    return;
     const overlay = document.createElement('div');
     overlay.id = 'invite-modal-overlay';
     overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;';
@@ -2838,6 +2846,25 @@
       </div>`;
     }).join('');
   }
+
+  // ── Restore an existing admin session on load ───────────────────────────────
+  // Supabase Auth persists the session, so a logged-in admin who refreshes (or
+  // comes back later) lands straight in the panel instead of the login form.
+  (async () => {
+    try {
+      const { data: { session } } = await _SB.auth.getSession();
+      if (!session) return;
+      const { data: ok } = await _SB.rpc('is_admin');
+      if (ok === true) {
+        _adminUser = session.user.email;
+        _adminPass = '';
+        enterAdmin();
+      } else {
+        // Signed in, but not an admin account — don't leave a stray session.
+        await _SB.auth.signOut().catch(() => {});
+      }
+    } catch (e) { /* stay on the login screen */ }
+  })();
 
 </script>
 </body>
