@@ -168,9 +168,6 @@
       <button id="admin-signin-btn" onclick="checkLogin()" class="g-btn w-full py-3 rounded-lg cond text-sm font-black tracking-[0.18em] uppercase text-white">
         Sign In
       </button>
-      <button id="dev-skip-login" onclick="enterAdmin()" style="display:none;" class="w-full py-3 mt-2 rounded-lg cond text-sm font-black tracking-[0.18em] uppercase text-white/40 hover:text-white/70 border border-white/10 hover:border-white/20 transition-colors">
-        Skip Login (Dev)
-      </button>
     </div>
   </div>
 </div>
@@ -250,17 +247,6 @@
 
     <!-- Sidebar footer -->
     <div style="padding:16px 10px;border-top:1px solid rgba(255,255,255,0.05);">
-      <div id="admin-tools" style="display:none;margin-bottom:10px;">
-        <p class="nav-section-label" style="padding:0 10px 8px;">Data Tools</p>
-        <button onclick="if(confirm('Delete ALL accounts?')){localStorage.removeItem('es_players');localStorage.removeItem('es_session');renderPlayers();}" style="display:flex;align-items:center;gap:9px;width:100%;padding:9px 14px;border-radius:7px;background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.15);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,100,100,0.6);transition:all 0.2s;margin-bottom:6px;" onmouseover="this.style.background='rgba(255,60,60,0.12)'" onmouseout="this.style.background='rgba(255,60,60,0.06)'">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
-          Clear Accounts
-        </button>
-        <button id="dev-clear-codes" onclick="if(confirm('Clear ALL purchase codes?')){localStorage.removeItem('es_codes');renderCodes();}" style="display:flex;align-items:center;gap:9px;width:100%;padding:9px 14px;border-radius:7px;background:rgba(255,60,60,0.06);border:1px solid rgba(255,60,60,0.15);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,100,100,0.6);transition:all 0.2s;" onmouseover="this.style.background='rgba(255,60,60,0.12)'" onmouseout="this.style.background='rgba(255,60,60,0.06)'">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/></svg>
-          Clear Codes
-        </button>
-      </div>
       <button onclick="adminLogout()" style="display:flex;align-items:center;gap:9px;width:100%;padding:9px 14px;border-radius:7px;background:none;border:none;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.25);transition:color 0.2s;" onmouseover="this.style.color='rgba(255,255,255,0.6)'" onmouseout="this.style.color='rgba(255,255,255,0.25)'">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         Sign Out
@@ -530,8 +516,6 @@
           <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.6;">Generate a one-time invite code for a new admin. Share it with them — they'll set their own username and password to create their own login.</p>
         </div>
 
-        <p id="team-devskip-note" style="display:none;font-size:13px;color:rgba(255,255,255,0.3);padding:8px 0 20px;">Sign in with a real username and password to manage team access — the dev skip-login button can't verify credentials for this section.</p>
-
         <p class="nav-section-label" style="padding:0 0 8px;">Team Members</p>
         <div id="team-list" class="space-y-2" style="margin-bottom:24px;"></div>
         <div id="team-empty" class="empty-state" style="display:none;">
@@ -548,8 +532,6 @@
         <div style="max-width:420px;background:#141414;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:28px;">
           <h3 class="cond" style="font-size:16px;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;color:#fff;margin-bottom:6px;">Change Password</h3>
           <p style="font-size:12.5px;color:rgba(255,255,255,0.4);line-height:1.6;margin-bottom:20px;">Updates the password for your own account (<span id="settings-username" style="color:rgba(255,255,255,0.6);font-weight:600;"></span>).</p>
-
-          <p id="settings-devskip-note" style="display:none;font-size:13px;color:rgba(255,255,255,0.3);padding:8px 0 16px;">Sign in with a real username and password to change it — the dev skip-login button can't verify credentials for this.</p>
 
           <div id="settings-form">
             <div style="margin-bottom:14px;">
@@ -1102,12 +1084,8 @@
   }
 
   async function enterAdmin() {
-    // Without verified credentials this is only reachable via the dev skip
-    // button, which must never work off-localhost.
-    if (!_adminUser && !['localhost', '127.0.0.1'].includes(location.hostname)) return;
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app-shell').style.display = 'block';
-    document.getElementById('admin-tools').style.display = 'block';
 
     // Render immediately from localStorage so the UI is instant
     renderPlayers();
@@ -1139,10 +1117,6 @@
         })
         .catch(() => {});
     }, 30000);
-  }
-
-  if (['localhost', '127.0.0.1'].includes(location.hostname)) {
-    document.getElementById('dev-skip-login').style.display = 'block';
   }
 
   function adminLogout() {
@@ -1525,7 +1499,6 @@
   // _adminUser/_adminPass server-side before doing anything — the anon key
   // alone can never read or modify admin_users.
   async function loadTeam() {
-    document.getElementById('team-devskip-note').style.display = (_adminUser && _adminPass) ? 'none' : 'block';
     if (!_adminUser || !_adminPass) {
       renderTeamList([]);
       renderInvitesList([]);
@@ -1721,8 +1694,6 @@
   // ── Settings (change your own password) ────────────────────────────────────
   function openSettingsView() {
     document.getElementById('settings-username').textContent = _adminUser || '—';
-    document.getElementById('settings-devskip-note').style.display = (_adminUser && _adminPass) ? 'none' : 'block';
-    document.getElementById('settings-form').style.display = (_adminUser && _adminPass) ? 'block' : 'none';
     document.getElementById('set-cur-pw').value = '';
     document.getElementById('set-new-pw').value = '';
     document.getElementById('set-new-pw2').value = '';
