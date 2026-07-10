@@ -119,6 +119,19 @@
   .field:focus { border-color: rgba(30,144,255,0.5); }
   .field::placeholder { color: rgba(255,255,255,0.7); }
 
+  /* ── Messages ───────────────────────────────────────────────────────────── */
+  .amsg-list::-webkit-scrollbar { width: 4px; }
+  .amsg-list::-webkit-scrollbar-track { background: transparent; }
+  .amsg-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+  .amsg-messages::-webkit-scrollbar { width: 4px; }
+  .amsg-messages::-webkit-scrollbar-track { background: transparent; }
+  .amsg-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+  .amsg-row { display: flex; margin-top: 10px; }
+  .amsg-row.mine { justify-content: flex-end; }
+  .amsg-bubble { max-width: 72%; width: fit-content; padding: 9px 14px; border-radius: 18px; font-size: 14px; line-height: 1.42; overflow-wrap: break-word; white-space: pre-wrap; }
+  .amsg-bubble.theirs { background: #202024; color: #fff; }
+  .amsg-bubble.mine { background: #1E90FF; color: #fff; }
+
   /* ── Drawer ──────────────────────────────────────────────────────────────── */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
   .drawer-overlay.open { opacity: 1; pointer-events: all; }
@@ -201,10 +214,10 @@
         All Players
         <span class="nav-badge" id="nav-player-count">0</span>
       </div>
-      <div class="nav-item" id="nav-needs-editing" onclick="switchView('needs-editing')">
-        <svg class="nav-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        Needs Editing
-        <span class="nav-badge" id="nav-needs-editing-count">0</span>
+      <div class="nav-item" id="nav-messages" onclick="switchView('messages')">
+        <svg class="nav-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Messages
+        <span class="nav-badge" id="nav-messages-count">0</span>
       </div>
 
       <div class="nav-section-label" style="margin-top:12px;">Coaches</div>
@@ -222,11 +235,6 @@
       </div>
 
       <div class="nav-section-label" style="margin-top:12px;">Content</div>
-      <div class="nav-item" id="nav-codes" onclick="switchView('codes')">
-        <svg class="nav-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-        Purchase Codes
-        <span class="nav-badge" id="nav-codes-count">0</span>
-      </div>
       <div class="nav-item" id="nav-reports" onclick="switchView('reports')">
         <svg class="nav-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         Reported Posts
@@ -348,6 +356,26 @@
 
       </div>
 
+      <!-- ── MESSAGES VIEW ─────────────────────────────────────────────────── -->
+      <!-- Reuses the same `messages` table / thread shape as coach↔player DMs.
+           An admin thread is just a thread with coach_id NULL and coach_name
+           "EyeScout Team" — the player's own messages.html needs no changes to
+           display or reply to it, since it already renders any thread matching
+           its playerId regardless of which coach_id sent it. -->
+      <div id="view-messages" style="display:none;">
+        <div style="display:flex;height:calc(100vh - 156px);min-height:460px;background:#111111;border:1px solid rgba(255,255,255,0.06);border-radius:14px;overflow:hidden;">
+
+          <!-- Conversation list -->
+          <div style="width:300px;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;">
+            <div id="amsg-list" class="amsg-list" style="flex:1;overflow-y:auto;padding:6px 0;"></div>
+          </div>
+
+          <!-- Chat panel -->
+          <div id="amsg-chat-panel" style="flex:1;display:flex;flex-direction:column;min-width:0;"></div>
+
+        </div>
+      </div>
+
       <!-- ── TOURNAMENTS VIEW ─────────────────────────────────────────────── -->
       <div id="view-tournaments" style="display:none;">
 
@@ -443,60 +471,6 @@
           <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:6px;">Coaches will appear here when they create an account.</p>
         </div>
 
-      </div>
-
-      <!-- ── NEEDS EDITING VIEW ───────────────────────────────────────────────── -->
-      <div id="view-needs-editing" style="display:none;">
-
-        <input type="file" id="needs-editing-photo-input" aria-label="Upload edited photos" multiple accept="image/*" style="display:none;" onchange="needsEditingHandleFiles(event)">
-
-        <!-- Add Photos modal -->
-        <div id="needs-editing-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.72);align-items:center;justify-content:center;" onclick="if(event.target===this)closeNeedsEditingModal()">
-          <div style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;width:340px;max-width:90vw;">
-            <p class="cond" style="font-size:18px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#fff;margin-bottom:20px;">Add Photos</p>
-            <div style="display:flex;flex-direction:column;gap:12px;">
-              <button onclick="needsEditingOpenFilePicker()" style="padding:14px;border-radius:10px;background:rgba(123,47,190,0.12);border:1px solid rgba(123,47,190,0.3);color:#a855f7;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.06em;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;transition:background 0.15s;" onmouseover="this.style.background='rgba(123,47,190,0.22)'" onmouseout="this.style.background='rgba(123,47,190,0.12)'">
-                Upload Files
-              </button>
-              <div style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.7);font-size:12px;">
-                <div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div>
-                OR
-                <div style="flex:1;height:1px;background:rgba(255,255,255,0.08);"></div>
-              </div>
-              <div>
-                <p style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:8px;">Dropbox Link</p>
-                <input id="needs-editing-dropbox-url" aria-label="Edited photos Dropbox link" type="url" placeholder="https://www.dropbox.com/..." style="width:100%;padding:10px 14px;border-radius:8px;background:#111;border:1px solid rgba(255,255,255,0.12);color:#fff;font-size:13px;outline:none;box-sizing:border-box;" oninput="this.style.borderColor=this.value?'rgba(0,120,255,0.5)':'rgba(255,255,255,0.12)'">
-                <button onclick="needsEditingSaveDropbox()" style="margin-top:8px;width:100%;padding:12px;border-radius:8px;background:rgba(30,144,255,0.12);border:1px solid rgba(30,144,255,0.3);color:#1E90FF;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.06em;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;transition:background 0.15s;" onmouseover="this.style.background='rgba(30,144,255,0.22)'" onmouseout="this.style.background='rgba(30,144,255,0.12)'">
-                  Save Link
-                </button>
-              </div>
-            </div>
-            <button onclick="closeNeedsEditingModal()" style="margin-top:18px;width:100%;padding:10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);font-size:12px;font-weight:600;cursor:pointer;font-family:'Barlow Condensed',sans-serif;letter-spacing:0.08em;text-transform:uppercase;">
-              Cancel
-            </button>
-          </div>
-        </div>
-
-        <div id="needs-editing-list" class="space-y-2 fade-in"></div>
-        <div id="needs-editing-empty" style="display:none;text-align:center;padding:60px 0;">
-          <div style="width:56px;height:56px;border-radius:14px;background:rgba(57,211,83,0.06);border:1px solid rgba(57,211,83,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#39D353" stroke-width="1.8" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">All caught up!</p>
-          <p style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:6px;">No players need editing right now.</p>
-        </div>
-
-      </div>
-
-      <!-- ── CODES VIEW ────────────────────────────────────────────────────── -->
-      <div id="view-codes" style="display:none;">
-        <div style="background:#141414;border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
-          <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;">Generate a code and share it with a paying customer. They enter it on signup to unlock the purchased pipeline immediately.</p>
-        </div>
-        <div id="codes-list" class="space-y-2"></div>
-        <div id="codes-empty" class="empty-state" style="display:none;">
-          <p class="cond" style="font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);">No codes generated yet</p>
-        </div>
       </div>
 
       <!-- ── REPORTED POSTS VIEW ───────────────────────────────────────────── -->
@@ -620,6 +594,9 @@
 
     <!-- Status bar -->
     <div id="drawer-status" style="border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"></div>
+
+    <!-- EyeScout Pro subscription (admin-controlled; rendered by renderSubSection) -->
+    <div id="d-sub-section" style="margin-bottom:12px;"></div>
 
     <!-- Contact quick-bar -->
     <div id="d-contact-bar" style="background:#141414;border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:14px 16px;margin-bottom:4px;display:none;">
@@ -963,13 +940,14 @@
   const _legacyDeletePlayer         = _sbDeletePlayer;
   const _legacySaveTournament       = _sbSaveTournament;
   const _legacyDeleteTournament     = _sbDeleteTournament;
-  const _legacySaveCode             = _sbSaveCode;
   const _legacyDeleteReport         = _sbDeleteReport;
   const _legacyDeletePost           = _sbDeletePost;
   const _legacyAddNotification      = _sbAddNotification;
   const _legacyUpdateCoachVerified  = _sbUpdateCoachVerified;
   const _legacyDeleteCoach          = _sbDeleteCoach;
   const _legacyDeleteThreadsByCoach = _sbDeleteThreadsByCoach;
+  const _legacySaveThread           = _sbSaveThread;
+  const _legacyDeleteThread         = _sbDeleteThread;
 
   _sbSavePlayer = function (p) {
     _adminWrite('admin_upsert_profile', { d: _playerToRow(p) }, () => _legacySavePlayer(p));
@@ -987,9 +965,6 @@
   };
   _sbDeleteTournament = function (id) {
     _adminWrite('admin_delete_tournament', { p_id: id }, () => _legacyDeleteTournament(id));
-  };
-  _sbSaveCode = function (c) {
-    _adminWrite('admin_upsert_code', { d: { code: c.code, used: !!c.used, used_by_email: c.usedByEmail || null } }, () => _legacySaveCode(c));
   };
   _sbDeleteReport = function (id) {
     _adminWrite('admin_delete_report', { p_id: id }, () => _legacyDeleteReport(id));
@@ -1012,6 +987,15 @@
   _sbDeleteThreadsByCoach = function (id) {
     _adminWrite('admin_delete_threads_by_coach', { p_coach_id: id }, () => _legacyDeleteThreadsByCoach(id));
   };
+  // Admin has no `profiles` row, so RLS (player_id = auth.uid() OR coach_id =
+  // auth.uid()) would reject a direct write to `messages` — route through the
+  // admin_* RPCs instead, same as every other privileged write in this file.
+  _sbSaveThread = function (thread) {
+    _adminWrite('admin_upsert_message', { d: _threadToRow(thread) }, () => _legacySaveThread(thread));
+  };
+  _sbDeleteThread = function (id) {
+    _adminWrite('admin_delete_message', { p_id: id }, () => _legacyDeleteThread(id));
+  };
 
   // Read every admin table via the admin_* readers, falling back to _sbSync when
   // the functions aren't present yet. Populates the SAME localStorage keys/shape
@@ -1026,10 +1010,28 @@
             if (opts.players) localStorage.setItem('es_players', JSON.stringify(rows.filter(r => (r.role || 'player') !== 'coach').map(_rowToPlayer)));
             if (opts.coaches) localStorage.setItem('es_coaches', JSON.stringify(rows.filter(r => r.role === 'coach').map(_rowToCoach)));
           }
+          // Pro subscriptions — loaded alongside players so the drawer can show
+          // each player's plan. Reader is admin-only (RLS otherwise limits
+          // subscription reads to the caller's own row).
+          if (opts.players) {
+            const { data, error } = await _SB.rpc('admin_all_subscriptions', _adminCreds());
+            if (!error && Array.isArray(data)) {
+              localStorage.setItem('es_subscriptions', JSON.stringify(data.map(_rowToAdminSub)));
+            }
+          }
           if (opts.reports)     { const { data, error } = await _SB.rpc('admin_all_reports', _adminCreds());     if (!error && data) localStorage.setItem('es_reports', JSON.stringify(data.map(_rowToReport))); }
           if (opts.tournaments) { const { data, error } = await _SB.rpc('admin_all_tournaments', _adminCreds()); if (!error && data) { const remote = data.map(_rowToTournament); const local = JSON.parse(localStorage.getItem('es_tournaments') || '[]'); const ids = new Set(remote.map(t => t.id)); localStorage.setItem('es_tournaments', JSON.stringify([...local.filter(t => !ids.has(t.id)), ...remote])); } }
-          if (opts.codes)       { const { data, error } = await _SB.rpc('admin_all_codes', _adminCreds());       if (!error && data) localStorage.setItem('es_codes', JSON.stringify(data.map(_rowToCode))); }
           if (opts.posts)       { const { data, error } = await _SB.rpc('admin_all_posts', _adminCreds());       if (!error && data) localStorage.setItem('es_posts', JSON.stringify(data.map(_rowToPost))); }
+          if (opts.messages) {
+            const { data, error } = await _SB.rpc('admin_all_messages', _adminCreds());
+            if (!error && data) {
+              const remote    = data.map(_rowToThread);
+              const all       = JSON.parse(localStorage.getItem('es_messages') || '[]');
+              const other     = all.filter(t => t.coachId);   // leave real coach threads alone
+              const localMine = all.filter(t => !t.coachId);
+              localStorage.setItem('es_messages', JSON.stringify([...other, ..._mergeThreads(remote, localMine)]));
+            }
+          }
           return;
         }
       } catch (e) { /* fall through to legacy */ }
@@ -1091,30 +1093,35 @@
 
     // Render immediately from localStorage so the UI is instant
     renderPlayers();
-    renderCodes();
     renderTournaments();
     document.getElementById('nav-coaches-count').textContent = getCoaches().length;
     document.getElementById('nav-reports-count').textContent = getReports().length;
+    updateMessagesBadge();
 
     // Sync from Supabase in the background — won't block or overwrite user actions
-    adminSync({ players: true, tournaments: true, coaches: true, posts: true, codes: true, reports: true })
+    adminSync({ players: true, tournaments: true, coaches: true, posts: true, reports: true, messages: true })
       .then(() => {
         renderPlayers();
-        renderCodes();
         renderTournaments();
         document.getElementById('nav-coaches-count').textContent = getCoaches().length;
         document.getElementById('nav-reports-count').textContent = getReports().length;
+        updateMessagesBadge();
         if (currentView === 'reports') renderReports();
       })
       .catch(e => console.warn('[admin] Supabase sync failed:', e.message));
 
-    // Poll every 30s so new signups appear without manually refreshing
+    // Poll every 30s so new signups/reports/etc appear without a manual refresh.
+    // Messages data is included so the unread badge stays live, but the open
+    // Messages view itself is deliberately NOT re-rendered here — rebuilding it
+    // on a timer would blow away whatever the admin is mid-typing in the chat
+    // input. That view only refreshes when the admin hits its own Refresh button.
     setInterval(() => {
-      adminSync({ players: true, coaches: true, codes: true, reports: true })
+      adminSync({ players: true, coaches: true, reports: true, messages: true })
         .then(() => {
           renderPlayers();
           document.getElementById('nav-coaches-count').textContent = getCoaches().length;
           document.getElementById('nav-reports-count').textContent = getReports().length;
+          updateMessagesBadge();
           if (currentView === 'reports') renderReports();
         })
         .catch(() => {});
@@ -1133,7 +1140,7 @@
   }
 
   // ── View switching ────────────────────────────────────────────────────────
-  const VIEWS = ['dashboard', 'players', 'tournaments', 'codes', 'coaches', 'needs-editing', 'reports', 'team', 'settings'];
+  const VIEWS = ['dashboard', 'players', 'messages', 'tournaments', 'coaches', 'reports', 'team', 'settings'];
   function switchView(view) {
     currentView = view;
     VIEWS.forEach(v => {
@@ -1143,19 +1150,19 @@
       if (nav) nav.classList.toggle('active', v === view);
     });
 
-    const titles = { dashboard: 'Dashboard', players: 'Players', tournaments: 'Tournaments', codes: 'Purchase Codes', coaches: 'Coaches', 'needs-editing': 'Needs Editing', reports: 'Reported Posts', team: 'Team Access', settings: 'Settings' };
+    const titles = { dashboard: 'Dashboard', players: 'Players', messages: 'Messages', tournaments: 'Tournaments', coaches: 'Coaches', reports: 'Reported Posts', team: 'Team Access', settings: 'Settings' };
     document.getElementById('topbar-title').textContent = titles[view] || view;
 
     const refreshBtn = `<button onclick="syncAndRenderPlayers(this)" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">↺ Refresh</button>`;
     if (view === 'dashboard')         { renderDashboard(); document.getElementById('topbar-actions').innerHTML = ''; }
     else if (view === 'players')      { document.getElementById('topbar-actions').innerHTML = refreshBtn; }
+    else if (view === 'messages')     { renderMessagesView(); document.getElementById('topbar-actions').innerHTML = `<button onclick="syncAndRenderMessages(this)" id="amsg-refresh-btn" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:color 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">↺ Refresh</button><button onclick="openNewMessageModal()" class="g-btn cond text-xs font-black tracking-[0.14em] uppercase text-white px-5 py-2.5 rounded-lg">+ New Message</button>`; }
     else if (view === 'tournaments')  { document.getElementById('topbar-actions').innerHTML = ''; }
     else if (view === 'coaches')        { renderCoaches(); document.getElementById('topbar-actions').innerHTML = ''; }
-    else if (view === 'needs-editing')  { renderNeedsEditing(); document.getElementById('topbar-actions').innerHTML = ''; }
     else if (view === 'reports')        { renderReports(); document.getElementById('topbar-actions').innerHTML = ''; }
     else if (view === 'team')           { loadTeam(); document.getElementById('topbar-actions').innerHTML = `<button onclick="openInviteModal()" class="g-btn cond text-xs font-black tracking-[0.14em] uppercase text-white px-5 py-2.5 rounded-lg">+ Add Admin</button>`; }
     else if (view === 'settings')       { openSettingsView(); document.getElementById('topbar-actions').innerHTML = ''; }
-    else document.getElementById('topbar-actions').innerHTML = `<button onclick="generateCode()" class="g-btn cond text-xs font-black tracking-[0.14em] uppercase text-white px-5 py-2.5 rounded-lg">+ Generate Code</button>`;
+    else document.getElementById('topbar-actions').innerHTML = '';
   }
 
   // ── Dashboard ─────────────────────────────────────────────────────────────
@@ -1281,10 +1288,6 @@
       if (updated) localStorage.setItem('es_session', JSON.stringify(updated));
     }
   }
-  function getCodes() { return JSON.parse(localStorage.getItem('es_codes') || '[]'); }
-  function saveCodes(c) { localStorage.setItem('es_codes', JSON.stringify(c)); }
-
-
   // ── Filter ────────────────────────────────────────────────────────────────
   function updateFilterBtnStyle() {
     const sport = document.getElementById('filter-sport')?.value || 'all';
@@ -1351,12 +1354,11 @@
   async function syncAndRenderPlayers(btn) {
     if (btn) { btn.textContent = '↺ Syncing…'; btn.disabled = true; }
     try {
-      await adminSync({ players: true, coaches: true, codes: true, tournaments: true });
+      await adminSync({ players: true, coaches: true, tournaments: true });
     } catch(e) { console.warn('[admin] sync failed:', e.message); }
     renderPlayers();
     renderCoaches();
     renderTournaments();
-    renderCodes();
     document.getElementById('nav-coaches-count').textContent = getCoaches().length;
     if (btn) { btn.textContent = '↺ Refresh'; btn.disabled = false; }
   }
@@ -1446,53 +1448,6 @@
           ? `<button onclick="openPlayerToDeliver('${escJsAttr(p.id)}')" class="g-btn" style="border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#fff;white-space:nowrap;display:flex;align-items:center;gap:6px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Add Photos</button>`
           : `<button onclick="openPlayer('${escJsAttr(p.id)}')" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);border-radius:7px;padding:7px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:all 0.2s;white-space:nowrap;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='rgba(255,255,255,0.7)';this.style.borderColor='rgba(255,255,255,0.09)'">Manage →</button>`
         }
-      </div>`;
-    }).join('');
-  }
-
-  // ── Codes ─────────────────────────────────────────────────────────────────
-  function generateCode() {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    const rand  = Array.from({length: 6}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-    const code  = 'ES-' + rand;
-    const codes = getCodes();
-    const entry = { code, used: false, usedByEmail: null, createdAt: new Date().toISOString() };
-    codes.unshift(entry);
-    saveCodes(codes);
-    _sbSaveCode(entry);
-    renderCodes();
-  }
-
-  function copyCode(code) {
-    navigator.clipboard.writeText(code).then(() => {
-      const el = document.getElementById('copy-' + code);
-      if (el) { el.textContent = 'Copied!'; setTimeout(() => el.textContent = 'Copy', 1500); }
-    });
-  }
-
-  function renderCodes() {
-    const codes = getCodes();
-    document.getElementById('nav-codes-count').textContent = codes.filter(c => !c.used).length;
-    const list  = document.getElementById('codes-list');
-    const empty = document.getElementById('codes-empty');
-    if (!codes.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
-    empty.style.display = 'none';
-
-    list.innerHTML = codes.map(c => {
-      const date = new Date(c.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-      const usedBadge = c.used
-        ? `<span class="badge badge-submitted">Used · ${escHtml(c.usedByEmail || '')}</span>`
-        : `<span class="badge badge-purchased">Available</span>`;
-      return `
-      <div class="player-row fade-in" style="justify-content:space-between;">
-        <div style="display:flex;align-items:center;gap:14px;">
-          <span style="font-family:Impact,'Arial Narrow',Arial,sans-serif;font-size:22px;letter-spacing:0.1em;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${escHtml(c.code)}</span>
-          ${usedBadge}
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <span class="cond" style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Created ${date}</span>
-          ${!c.used ? `<button id="copy-${escAttr(c.code)}" onclick="copyCode('${escJsAttr(c.code)}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);transition:all 0.2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Copy</button>` : ''}
-        </div>
       </div>`;
     }).join('');
   }
@@ -1772,6 +1727,8 @@
         <button onclick="togglePurchased('${escJsAttr(id)}')" class="g-btn" style="border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#fff;">Mark Purchased</button>`;
     }
 
+    renderSubSection(p);
+
     document.getElementById('d-first').value      = p.athleteFirst || '';
     document.getElementById('d-last').value       = p.athleteLast  || '';
     document.getElementById('d-sport').value      = p.sport        || 'Football';
@@ -1927,6 +1884,231 @@
       renderPlayers();
       if (activePlayerId === id) openPlayer(id);
     }
+  }
+
+  // ── EyeScout Pro subscription (admin-controlled) ────────────────────────────
+  // Real enforcement is server-side (supabase-phase5 RLS + phase8 admin RPCs).
+  // These functions just drive the drawer UI and issue the privileged RPC calls.
+  //
+  // Encoding (mirrors phase8 SQL + the client's _subHasAccess exactly):
+  //   • Indefinite Pro    → status 'active',    expiresAt null
+  //   • Time-limited Pro  → status 'cancelled', expiresAt in the future (auto-ends)
+  //   • Cancelled/expired → status 'cancelled', expiresAt in the past
+  function _rowToAdminSub(r) {
+    return {
+      userId:    r.user_id,
+      status:    r.status || 'active',
+      plan:      r.plan   || 'pro',
+      startedAt: r.started_at || null,
+      expiresAt: r.expires_at || null,
+    };
+  }
+  function getAdminSubscriptions() { return JSON.parse(localStorage.getItem('es_subscriptions') || '[]'); }
+  function adminSubForPlayer(id)   { return getAdminSubscriptions().find(s => s.userId === id) || null; }
+  // Does this subscription grant Pro right now? Same rule as the server's
+  // _es_has_active_sub / the client's _subHasAccess.
+  function adminSubIsActive(sub) {
+    if (!sub) return false;
+    if (sub.status === 'active') return true;
+    if (sub.status === 'cancelled') return !!(sub.expiresAt && Date.now() < new Date(sub.expiresAt).getTime());
+    return false;
+  }
+  function _fmtSubDate(iso) {
+    if (!iso) return '';
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+  function _daysLeftLabel(iso) {
+    const ms = new Date(iso).getTime() - Date.now();
+    if (ms <= 0) return 'expired';
+    const days = Math.ceil(ms / 86400000);
+    return days === 1 ? '1 day left' : days + ' days left';
+  }
+
+  function renderSubSection(p) {
+    const box = document.getElementById('d-sub-section');
+    if (!box) return;
+    const sub    = adminSubForPlayer(p.id);
+    const active = adminSubIsActive(sub);
+    const idAttr = escJsAttr(p.id);
+
+    if (active) {
+      const indefinite = sub.status === 'active' && !sub.expiresAt;
+      const detail = indefinite
+        ? 'Active · No end date'
+        : `Active until ${_fmtSubDate(sub.expiresAt)} · ${_daysLeftLabel(sub.expiresAt)}`;
+      box.style.cssText = 'margin-bottom:12px;border-radius:8px;padding:12px 16px;background:rgba(57,211,83,0.08);border:1px solid rgba(57,211,83,0.22);';
+      box.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <div style="min-width:0;">
+            <span class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#39D353;">★ EyeScout Pro</span>
+            <p style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;">${escHtml(detail)}</p>
+          </div>
+          <div style="display:flex;gap:8px;flex-shrink:0;">
+            <button onclick="openGrantProModal('${idAttr}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.85);transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.28)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)'">Change</button>
+            <button onclick="adminCancelPro('${idAttr}')" style="background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.28);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#ff6b6b;transition:all 0.15s;" onmouseover="this.style.background='rgba(255,60,60,0.18)'" onmouseout="this.style.background='rgba(255,60,60,0.1)'">Cancel Pro</button>
+          </div>
+        </div>`;
+    } else {
+      const wasExpired = sub && sub.expiresAt;
+      const detail = wasExpired ? `Expired ${_fmtSubDate(sub.expiresAt)}` : 'No active subscription';
+      box.style.cssText = 'margin-bottom:12px;border-radius:8px;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);';
+      box.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <div style="min-width:0;">
+            <span class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Not Pro</span>
+            <p style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">${escHtml(detail)}</p>
+          </div>
+          <button onclick="openGrantProModal('${idAttr}')" class="g-btn" style="border-radius:6px;padding:5px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#fff;flex-shrink:0;">Grant Pro</button>
+        </div>`;
+    }
+  }
+
+  // Duration presets for a Pro grant. `days: null` = indefinite (no end date).
+  const _PRO_DURATIONS = [
+    { key: '1w',  label: '1 Week',    days: 7 },
+    { key: '1m',  label: '1 Month',   days: 30 },
+    { key: '3m',  label: '3 Months',  days: 90 },
+    { key: '6m',  label: '6 Months',  days: 180 },
+    { key: '1y',  label: '1 Year',    days: 365 },
+    { key: 'inf', label: 'No expiry (indefinite)', days: null },
+    { key: 'custom', label: 'Custom end date…', days: 'custom' },
+  ];
+
+  function openGrantProModal(playerId) {
+    const p = getPlayers().find(pl => pl.id === playerId);
+    if (!p) return;
+    const name = `${p.athleteFirst || ''} ${p.athleteLast || ''}`.trim() || 'this player';
+    const currentlyPro = adminSubIsActive(adminSubForPlayer(playerId));
+
+    const overlay = document.createElement('div');
+    overlay.id = 'grant-pro-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;';
+    const minDate = new Date(Date.now() + 86400000).toISOString().slice(0, 10); // tomorrow
+    overlay.innerHTML = `
+      <div style="background:#1a1a1a;border:1px solid rgba(30,144,255,0.2);border-radius:16px;max-width:400px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+        <div style="width:44px;height:44px;border-radius:12px;background:rgba(30,144,255,0.1);border:1px solid rgba(30,144,255,0.25);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E90FF" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <p class="cond" style="font-size:16px;font-weight:800;letter-spacing:0.02em;color:#fff;margin-bottom:4px;">${currentlyPro ? 'Change Pro Duration' : 'Grant EyeScout Pro'}</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:18px;">${currentlyPro ? 'Update' : 'Give'} <strong style="color:#fff;">${escHtml(name)}</strong> Pro access. A time limit cancels automatically when it runs out.</p>
+        <div id="grant-pro-options" style="display:flex;flex-direction:column;gap:7px;margin-bottom:14px;">
+          ${_PRO_DURATIONS.map(d => `
+            <button type="button" data-pro-days="${d.days}" data-pro-key="${d.key}" style="display:flex;align-items:center;justify-content:space-between;text-align:left;padding:11px 14px;border-radius:9px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.09);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:0.04em;color:rgba(255,255,255,0.85);transition:all 0.15s;" onmouseover="this.style.background='rgba(30,144,255,0.08)';this.style.borderColor='rgba(30,144,255,0.3)'" onmouseout="if(!this.classList.contains('sel')){this.style.background='rgba(255,255,255,0.03)';this.style.borderColor='rgba(255,255,255,0.09)'}">
+              <span>${escHtml(d.label)}</span>
+            </button>`).join('')}
+        </div>
+        <div id="grant-pro-custom-wrap" style="display:none;margin-bottom:14px;">
+          <label class="d-label" for="grant-pro-date" style="display:block;margin-bottom:6px;">End date</label>
+          <input class="d-field" type="date" id="grant-pro-date" min="${minDate}" style="width:100%;">
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button id="grant-pro-cancel" style="flex:1;padding:11px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Cancel</button>
+          <button id="grant-pro-confirm" class="g-btn" disabled style="flex:1;padding:11px;border-radius:8px;color:#fff;font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;opacity:0.5;">Grant Pro</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+
+    let selected = null; // { days: number|null|'custom', key }
+    const confirmBtn = overlay.querySelector('#grant-pro-confirm');
+    const customWrap = overlay.querySelector('#grant-pro-custom-wrap');
+    const dateInput  = overlay.querySelector('#grant-pro-date');
+
+    function refreshConfirm() {
+      const ready = selected && (selected.days !== 'custom' || (dateInput && dateInput.value));
+      confirmBtn.disabled = !ready;
+      confirmBtn.style.opacity = ready ? '1' : '0.5';
+    }
+
+    overlay.querySelectorAll('[data-pro-days]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        overlay.querySelectorAll('[data-pro-days]').forEach(b => {
+          b.classList.remove('sel');
+          b.style.background = 'rgba(255,255,255,0.03)';
+          b.style.borderColor = 'rgba(255,255,255,0.09)';
+        });
+        btn.classList.add('sel');
+        btn.style.background = 'rgba(30,144,255,0.14)';
+        btn.style.borderColor = 'rgba(30,144,255,0.45)';
+        const raw = btn.getAttribute('data-pro-days');
+        selected = { key: btn.getAttribute('data-pro-key'), days: raw === 'null' ? null : (raw === 'custom' ? 'custom' : parseInt(raw, 10)) };
+        customWrap.style.display = selected.days === 'custom' ? 'block' : 'none';
+        refreshConfirm();
+      });
+    });
+    if (dateInput) dateInput.addEventListener('input', refreshConfirm);
+
+    const close = () => overlay.remove();
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+    overlay.querySelector('#grant-pro-cancel').onclick = close;
+    confirmBtn.onclick = () => {
+      if (confirmBtn.disabled) return;
+      let expiresAt = null;
+      if (selected.days === 'custom') {
+        // Interpret the picked calendar day as end-of-day local, so "ends Jul 30"
+        // means access through all of Jul 30.
+        const d = new Date(dateInput.value + 'T23:59:59');
+        if (isNaN(d.getTime()) || d.getTime() <= Date.now()) return;
+        expiresAt = d.toISOString();
+      } else if (typeof selected.days === 'number') {
+        expiresAt = new Date(Date.now() + selected.days * 86400000).toISOString();
+      } // else indefinite → null
+      close();
+      adminGrantPro(playerId, expiresAt);
+    };
+  }
+
+  async function adminGrantPro(playerId, expiresAtISO) {
+    if (!_adminUser) return;
+    // Optimistic local update so the drawer reflects it immediately.
+    const subs = getAdminSubscriptions().filter(s => s.userId !== playerId);
+    subs.push({
+      userId: playerId,
+      status: expiresAtISO ? 'cancelled' : 'active',
+      plan: 'pro',
+      startedAt: (adminSubForPlayer(playerId)?.startedAt) || new Date().toISOString(),
+      expiresAt: expiresAtISO || null,
+    });
+    localStorage.setItem('es_subscriptions', JSON.stringify(subs));
+    if (activePlayerId === playerId) { const p = getPlayers().find(pl => pl.id === playerId); if (p) renderSubSection(p); }
+
+    try {
+      const { error } = await _SB.rpc('admin_set_subscription', {
+        ..._adminCreds(), p_user_id: playerId, p_expires_at: expiresAtISO,
+      });
+      if (error) { alert('Could not update Pro plan: ' + (error.message || 'server error') + '\nRun supabase-phase8-admin-subscription.sql if you haven\'t yet.'); }
+    } catch (e) {
+      alert('Could not update Pro plan — check your connection.');
+    }
+    // Re-pull authoritative state.
+    await adminSync({ players: true });
+    if (activePlayerId === playerId) { const p = getPlayers().find(pl => pl.id === playerId); if (p) renderSubSection(p); }
+  }
+
+  function adminCancelPro(playerId) {
+    const p = getPlayers().find(pl => pl.id === playerId);
+    const name = p ? (`${p.athleteFirst || ''} ${p.athleteLast || ''}`.trim() || 'this player') : 'this player';
+    openConfirmModal(
+      'Cancel Pro Plan?',
+      `This immediately ends ${name}'s EyeScout Pro access — they'll lose the full feed, scouting, and messaging right away. You can grant it again anytime.`,
+      async () => {
+        if (!_adminUser) return;
+        // Optimistic: mark cancelled+expired locally.
+        const subs = getAdminSubscriptions().map(s =>
+          s.userId === playerId ? { ...s, status: 'cancelled', expiresAt: new Date().toISOString() } : s);
+        localStorage.setItem('es_subscriptions', JSON.stringify(subs));
+        if (activePlayerId === playerId && p) renderSubSection(p);
+
+        try {
+          const { error } = await _SB.rpc('admin_cancel_subscription', { ..._adminCreds(), p_user_id: playerId });
+          if (error) alert('Could not cancel Pro plan: ' + (error.message || 'server error'));
+        } catch (e) {
+          alert('Could not cancel Pro plan — check your connection.');
+        }
+        await adminSync({ players: true });
+        if (activePlayerId === playerId && p) renderSubSection(p);
+      },
+      'Cancel Pro'
+    );
   }
 
   function togglePhotosReady() {
@@ -2605,159 +2787,6 @@
   function getPosts() { return JSON.parse(localStorage.getItem('es_posts') || '[]'); }
   function savePosts(p) { localStorage.setItem('es_posts', JSON.stringify(p)); }
 
-  let needsEditingTargetId = null;
-
-  function needsEditingAddPhotos(playerId) {
-    needsEditingTargetId = playerId;
-    document.getElementById('needs-editing-dropbox-url').value = '';
-    document.getElementById('needs-editing-modal').style.display = 'flex';
-  }
-
-  function closeNeedsEditingModal() {
-    document.getElementById('needs-editing-modal').style.display = 'none';
-  }
-
-  function needsEditingOpenFilePicker() {
-    closeNeedsEditingModal();
-    const input = document.getElementById('needs-editing-photo-input');
-    input.value = '';
-    input.click();
-  }
-
-  async function needsEditingSaveDropbox() {
-    const url = document.getElementById('needs-editing-dropbox-url').value.trim();
-    if (!url) return;
-
-    _showImportProgress('Delivering edited photos…');
-    try {
-      const urls = await importDropboxFolder(url, _updateImportProgress);
-
-      const players = getPlayers();
-      const idx = players.findIndex(p => p.id === needsEditingTargetId);
-      if (idx === -1) { _hideImportProgress(); return; }
-
-      players[idx].dropboxUrl = url;
-      if (!players[idx].deliveredPhotos) players[idx].deliveredPhotos = [];
-      // Add any new URLs not already in the list
-      for (const imgUrl of urls) {
-        if (!players[idx].deliveredPhotos.includes(imgUrl)) {
-          players[idx].deliveredPhotos.push(imgUrl);
-        }
-      }
-      players[idx].photosReady = true;
-      savePlayers(players);
-      _sbSavePlayer(players[idx]);
-      _hideImportProgress();
-      closeNeedsEditingModal();
-      renderNeedsEditing();
-      renderPlayers();
-
-      if (urls.length) {
-        alert(`✓ ${urls.length} photo${urls.length === 1 ? '' : 's'} pulled from Dropbox and delivered to player's profile.`);
-      } else {
-        alert('Link saved, but no images were found in that Dropbox folder. Make sure the folder contains JPG/PNG files.');
-      }
-    } catch (err) {
-      _hideImportProgress();
-      alert('Error pulling from Dropbox: ' + err.message);
-    }
-  }
-
-  async function needsEditingHandleFiles(e) {
-    const files = Array.from(e.target.files);
-    if (!files.length || !needsEditingTargetId) return;
-
-    const players = getPlayers();
-    const idx = players.findIndex(p => p.id === needsEditingTargetId);
-    if (idx === -1) return;
-    if (!players[idx].deliveredPhotos) players[idx].deliveredPhotos = [];
-
-    try {
-      for (const file of files) {
-        const url = await adminDropboxUpload(file, `/EyeScout/players/${needsEditingTargetId}/delivered`);
-        players[idx].deliveredPhotos.push(url);
-      }
-      players[idx].photosReady = true;
-      savePlayers(players);
-      _sbSavePlayer(players[idx]);
-      renderNeedsEditing();
-      renderPlayers();
-    } catch (err) {
-      alert('Upload failed: ' + err.message);
-    }
-  }
-
-  // "Needs Editing" = the player paid for their package AND submitted their photo
-  // selection from the tournament, but their photos aren't finished being edited
-  // yet (not marked ready). Once the admin marks them ready, they drop off.
-  function playerNeedsEditing(p) {
-    return !!(p.purchased && p.selectionSubmitted && !p.photosReady);
-  }
-
-  function renderNeedsEditing() {
-    const players = getPlayers();
-    const flagged = players.filter(p => playerNeedsEditing(p))
-      .sort((a, b) => (a.athleteLast || '').localeCompare(b.athleteLast || ''));
-
-    const count = document.getElementById('nav-needs-editing-count');
-    if (count) count.textContent = flagged.length;
-
-    const list  = document.getElementById('needs-editing-list');
-    const empty = document.getElementById('needs-editing-empty');
-
-    if (!flagged.length) {
-      list.innerHTML = '';
-      empty.style.display = 'block';
-      return;
-    }
-    empty.style.display = 'none';
-
-    list.innerHTML = flagged.map(p => {
-      const initials = ((p.athleteFirst||'')[0]||'') + ((p.athleteLast||'')[0]||'');
-      const sendBtn = p.selectionDropboxUrl
-        ? `<a href="${escAttr(safeUrl(p.selectionDropboxUrl) || '#')}" target="_blank" rel="noopener" style="display:block;text-align:center;padding:8px 16px;border-radius:8px;background:rgba(0,201,167,0.1);border:1px solid rgba(0,201,167,0.28);color:#00C9A7;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:0.06em;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;transition:background 0.15s;white-space:nowrap;" onmouseover="this.style.background='rgba(0,201,167,0.2)'" onmouseout="this.style.background='rgba(0,201,167,0.1)'">
-            Editing Folder ↗
-          </a>`
-        : `<button onclick="needsEditingSendToEditors('${escJsAttr(p.id)}', this)" ${(p.selectedPhotos||[]).length ? '' : 'disabled title="No photo selection saved yet"'} style="padding:8px 16px;border-radius:8px;background:rgba(30,144,255,0.12);border:1px solid rgba(30,144,255,0.3);color:#1E90FF;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.06em;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;transition:background 0.15s;white-space:nowrap;${(p.selectedPhotos||[]).length ? '' : 'opacity:0.4;cursor:not-allowed;'}" onmouseover="this.style.background='rgba(30,144,255,0.22)'" onmouseout="this.style.background='rgba(30,144,255,0.12)'">
-            Send to Editors
-          </button>`;
-      return `
-        <div style="display:flex;align-items:center;gap:14px;padding:14px 18px;background:#141414;border:1px solid rgba(255,255,255,0.07);border-radius:12px;margin-bottom:8px;">
-          <div style="width:42px;height:42px;border-radius:50%;background:#1e1e1e;border:1px solid rgba(255,255,255,0.08);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:rgba(255,255,255,0.7);">
-            ${p.profilePhoto ? `<img alt="" src="${escAttr(p.profilePhoto)}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">` : escHtml(initials)}
-          </div>
-          <div style="flex:1;min-width:0;">
-            <p style="font-size:14px;font-weight:700;color:#fff;">${escHtml(p.athleteFirst || '')} ${escHtml(p.athleteLast || '')} <span style="color:rgba(255,255,255,0.7);font-weight:400;">#${escHtml(p.jersey || '—')}</span></p>
-            <p style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:2px;">${escHtml(p.sport || 'No sport')} · ${escHtml(p.school || 'No school')}</p>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
-            ${sendBtn}
-            <button onclick="needsEditingAddPhotos('${escJsAttr(p.id)}')" style="padding:8px 16px;border-radius:8px;background:rgba(123,47,190,0.12);border:1px solid rgba(123,47,190,0.3);color:#a855f7;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:0.06em;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;transition:background 0.15s;white-space:nowrap;" onmouseover="this.style.background='rgba(123,47,190,0.22)'" onmouseout="this.style.background='rgba(123,47,190,0.12)'">
-              + Add Photos
-            </button>
-          </div>
-        </div>`;
-    }).join('');
-  }
-
-  // Fallback for when the automatic purchase→editors push didn't run (e.g. the
-  // player paid while the server was unreachable). Uses the same pipeline the
-  // purchase flow calls: copy selection → Dropbox to-edit folder → Monday card.
-  async function needsEditingSendToEditors(playerId, btn) {
-    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
-    try {
-      const result = await _esSendToEditors(playerId);
-      if (!result) throw new Error('Player has no purchased selection to send.');
-      renderNeedsEditing();
-      alert(result.alreadySent
-        ? 'Already sent — the editing folder link is on this player.'
-        : `✓ ${result.copied} photo${result.copied === 1 ? '' : 's'} copied to the editing folder${result.mondayOk ? ' and the Monday card was created.' : '.\n\n⚠ Monday card failed: ' + (result.mondayError || 'unknown error')}`);
-    } catch (err) {
-      if (btn) { btn.disabled = false; btn.textContent = 'Send to Editors'; }
-      alert('Send to editors failed: ' + err.message);
-    }
-  }
-
   // ── Reported Posts ──────────────────────────────────────────────────────────
   function getReports()  { return JSON.parse(localStorage.getItem('es_reports') || '[]'); }
   function saveReports(r){ localStorage.setItem('es_reports', JSON.stringify(r)); }
@@ -2831,6 +2860,284 @@
         </div>
       </div>`;
     }).join('');
+  }
+
+  // ── Messages (admin ↔ player: support requests + Dropbox delivery links) ────
+  // An "admin thread" is a row in the same `messages` table coaches use, just
+  // with coach_id NULL and a fixed coach_name — see the admin_upsert_message /
+  // admin_all_messages RPCs (supabase-phase3-admin-messages.sql) and the
+  // _sbSaveThread/_sbDeleteThread overrides above.
+  let activeMsgThreadId = null;
+
+  function getAdminThreads() {
+    const all = JSON.parse(localStorage.getItem('es_messages') || '[]');
+    return all.filter(t => !t.coachId).sort((a, b) => {
+      const at = a.messages?.length ? a.messages[a.messages.length - 1].timestamp : a.id;
+      const bt = b.messages?.length ? b.messages[b.messages.length - 1].timestamp : b.id;
+      return new Date(bt) - new Date(at);
+    });
+  }
+
+  function saveAdminThreads(threads) {
+    const all = JSON.parse(localStorage.getItem('es_messages') || '[]');
+    const others = all.filter(t => t.coachId); // leave real coach<->player threads untouched
+    localStorage.setItem('es_messages', JSON.stringify([...others, ...threads]));
+  }
+
+  function getPlayerForThread(t) {
+    return getPlayers().find(p => p.id === t.playerId) || { athleteFirst: 'Unknown', athleteLast: 'Player', jersey: '', sport: '' };
+  }
+
+  // Round avatar: the player's profile photo if they have one, else their first
+  // initial. Same source (profile_photo) the All Players list uses.
+  function playerAvatarHTML(player, px) {
+    const inner = player.profilePhoto
+      ? `<img src="${escAttr(player.profilePhoto)}" alt="" style="width:100%;height:100%;object-fit:cover;">`
+      : `<span style="font-size:${Math.round(px * 0.36)}px;font-weight:700;color:rgba(255,255,255,0.7);">${escHtml((player.athleteFirst || '?')[0])}</span>`;
+    return `<div style="width:${px}px;height:${px}px;border-radius:50%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">${inner}</div>`;
+  }
+
+  // Jump from a conversation straight to that player's management drawer in the
+  // All Players view. No-op if the player record isn't loaded (e.g. deleted).
+  function openPlayerFromMessages(playerId) {
+    if (!getPlayers().some(p => p.id === playerId)) return;
+    switchView('players');
+    openPlayer(playerId);
+  }
+
+  function updateMessagesBadge() {
+    const unread = getAdminThreads().filter(t => t.messages.some(m => m.from === 'player' && !m.read)).length;
+    const el = document.getElementById('nav-messages-count');
+    if (el) el.textContent = unread;
+  }
+
+  // Manual refresh for the Messages view only — the background 30s poll keeps
+  // the unread badge current but deliberately skips re-rendering this view (see
+  // the setInterval in enterAdmin()), so this button is the only thing that
+  // pulls in new player replies while you're actually sitting on the page.
+  async function syncAndRenderMessages(btn) {
+    if (btn) { btn.textContent = '↺ Syncing…'; btn.disabled = true; }
+    try {
+      await adminSync({ messages: true });
+    } catch (e) { console.warn('[admin] messages sync failed:', e.message); }
+    renderMessagesView();
+    updateMessagesBadge();
+    if (btn) { btn.textContent = '↺ Refresh'; btn.disabled = false; }
+  }
+
+  function renderMessagesView() {
+    renderAmsgList();
+    const threads = getAdminThreads();
+    if (activeMsgThreadId && threads.some(t => t.id === activeMsgThreadId)) {
+      openAdminThread(activeMsgThreadId);
+    } else if (threads.length) {
+      openAdminThread(threads[0].id);
+    } else {
+      renderAmsgChatWindow(null);
+    }
+  }
+
+  function renderAmsgList() {
+    const threads = getAdminThreads();
+    const list = document.getElementById('amsg-list');
+    if (!list) return;
+    if (!threads.length) {
+      list.innerHTML = `
+        <div style="padding:32px 20px;text-align:center;">
+          <div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;">No conversations yet.<br>Click “+ New Message” to reach out to a player.</p>
+        </div>`;
+      return;
+    }
+    list.innerHTML = threads.map(t => {
+      const player  = getPlayerForThread(t);
+      const last    = t.messages[t.messages.length - 1];
+      const preview = last ? last.text : 'No messages yet';
+      const unread  = t.messages.some(m => m.from === 'player' && !m.read);
+      const isActive = t.id === activeMsgThreadId;
+      return `
+        <div onclick="openAdminThread('${escJsAttr(t.id)}')" style="display:flex;align-items:center;gap:12px;padding:12px 18px;cursor:pointer;border-left:2px solid ${isActive ? '#1E90FF' : 'transparent'};background:${isActive ? 'rgba(255,255,255,0.05)' : 'transparent'};transition:background 0.15s;">
+          ${playerAvatarHTML(player, 38)}
+          <div style="flex:1;min-width:0;">
+            <p style="font-size:13px;font-weight:700;color:#fff;margin-bottom:2px;">${escHtml(player.athleteFirst)} ${escHtml(player.athleteLast)}</p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escHtml(preview.length > 34 ? preview.slice(0, 34) + '…' : preview)}</p>
+          </div>
+          ${unread ? '<div style="width:7px;height:7px;border-radius:50%;background:#1E90FF;flex-shrink:0;"></div>' : ''}
+        </div>`;
+    }).join('');
+  }
+
+  function openAdminThread(threadId) {
+    activeMsgThreadId = threadId;
+    const threads = getAdminThreads();
+    const t = threads.find(x => x.id === threadId);
+    if (t) {
+      let changed = false;
+      t.messages.forEach(m => { if (m.from === 'player' && !m.read) { m.read = true; changed = true; } });
+      if (changed) {
+        saveAdminThreads(threads);
+        if (typeof _sbSaveThread === 'function') _sbSaveThread(t);
+      }
+    }
+    renderAmsgList();
+    renderAmsgChatWindow(t);
+    updateMessagesBadge();
+  }
+
+  function renderAmsgChatWindow(thread) {
+    const panel = document.getElementById('amsg-chat-panel');
+    if (!panel) return;
+    if (!thread) {
+      panel.innerHTML = `
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;">
+          <p class="cond" style="font-size:18px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#fff;margin-bottom:8px;">No Conversation Selected</p>
+          <p style="font-size:13px;color:rgba(255,255,255,0.7);max-width:280px;line-height:1.7;">Pick a conversation on the left, or start a new one.</p>
+        </div>`;
+      return;
+    }
+    const player = getPlayerForThread(thread);
+    const messagesHTML = thread.messages.map((m, i) => {
+      const isMine = m.from === 'coach'; // admin sends into the same "coach" slot a real coach would
+      return `<div class="amsg-row ${isMine ? 'mine' : ''}"><div class="amsg-bubble ${isMine ? 'mine' : 'theirs'}">${escHtml(m.text)}</div></div>`;
+    }).join('');
+    panel.innerHTML = `
+      <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:12px;">
+        <div onclick="openPlayerFromMessages('${escJsAttr(thread.playerId)}')" style="cursor:pointer;" title="Open player management">${playerAvatarHTML(player, 36)}</div>
+        <div style="flex:1;min-width:0;">
+          <p onclick="openPlayerFromMessages('${escJsAttr(thread.playerId)}')" title="Open player management" style="font-size:14px;font-weight:700;color:#fff;cursor:pointer;display:inline-block;transition:color 0.15s;" onmouseover="this.style.color='#1E90FF';this.style.textDecoration='underline'" onmouseout="this.style.color='#fff';this.style.textDecoration='none'">${escHtml(player.athleteFirst)} ${escHtml(player.athleteLast)}</p>
+          <p style="font-size:11px;color:rgba(255,255,255,0.7);">#${escHtml(player.jersey || '')} · ${escHtml(player.sport || '')}</p>
+        </div>
+        <button onclick="deleteAdminThread('${escJsAttr(thread.id)}')" title="Delete conversation" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;color:rgba(255,255,255,0.7);flex-shrink:0;transition:all 0.15s;" onmouseover="this.style.background='rgba(255,60,60,0.12)';this.style.borderColor='rgba(255,60,60,0.3)';this.style.color='#ff6b6b';" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(255,255,255,0.08)';this.style.color='rgba(255,255,255,0.7)';">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
+      </div>
+      <div id="amsg-messages" class="amsg-messages" style="flex:1;overflow-y:auto;padding:18px 20px;display:flex;flex-direction:column;">
+        ${messagesHTML || `<div style="flex:1;display:flex;align-items:center;justify-content:center;text-align:center;"><p style="font-size:13px;color:rgba(255,255,255,0.7);max-width:240px;line-height:1.7;">Start of your conversation with ${escHtml(player.athleteFirst)}.</p></div>`}
+      </div>
+      <div style="padding:14px 18px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:10px;">
+        <input class="field" id="amsg-input" style="flex:1;" placeholder="Message ${escAttr(player.athleteFirst)}… (paste a Dropbox link to deliver photos)" onkeydown="if(event.key==='Enter')sendAdminMessage()" autocomplete="off">
+        <button onclick="sendAdminMessage()" class="g-btn" style="width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>`;
+    const box = document.getElementById('amsg-messages');
+    if (box) box.scrollTop = box.scrollHeight;
+  }
+
+  function sendAdminMessage() {
+    const input = document.getElementById('amsg-input');
+    const text = input?.value.trim();
+    if (!text || !activeMsgThreadId) return;
+    const threads = getAdminThreads();
+    const t = threads.find(x => x.id === activeMsgThreadId);
+    if (!t) return;
+    t.messages.push({ from: 'coach', text, timestamp: new Date().toISOString(), read: true });
+    saveAdminThreads(threads);
+    if (typeof _sbSaveThread === 'function') _sbSaveThread(t);
+    input.value = '';
+    renderAmsgChatWindow(t);
+    renderAmsgList();
+  }
+
+  function deleteAdminThread(threadId) {
+    const player = getPlayerForThread({ playerId: (getAdminThreads().find(t => t.id === threadId) || {}).playerId });
+    openConfirmModal(
+      'Delete Conversation?',
+      `This removes your entire message history with ${player.athleteFirst} ${player.athleteLast}. This cannot be undone.`,
+      () => {
+        const all = JSON.parse(localStorage.getItem('es_messages') || '[]');
+        localStorage.setItem('es_messages', JSON.stringify(all.filter(t => t.id !== threadId)));
+        if (typeof _sbDeleteThread === 'function') _sbDeleteThread(threadId);
+        if (activeMsgThreadId === threadId) activeMsgThreadId = null;
+        renderMessagesView();
+        updateMessagesBadge();
+      }
+    );
+  }
+
+  // ── Custom confirm dialog (replaces the native browser confirm()) ──────────
+  // confirmLabel defaults to 'Delete' so existing callers are unchanged.
+  function openConfirmModal(title, message, onConfirm, confirmLabel) {
+    const label = confirmLabel || 'Delete';
+    const overlay = document.createElement('div');
+    overlay.id = 'confirm-modal-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML = `
+      <div style="background:#1a1a1a;border:1px solid rgba(255,60,60,0.2);border-radius:16px;max-width:380px;width:100%;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+        <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.25);display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+        </div>
+        <p class="cond" style="font-size:16px;font-weight:800;letter-spacing:0.02em;color:#fff;margin-bottom:8px;">${escHtml(title)}</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.6;margin-bottom:22px;">${escHtml(message)}</p>
+        <div style="display:flex;gap:10px;">
+          <button id="confirm-modal-cancel" style="flex:1;padding:11px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Cancel</button>
+          <button id="confirm-modal-ok" style="flex:1;padding:11px;border-radius:8px;background:rgba(255,60,60,0.12);border:1px solid rgba(255,60,60,0.35);color:#ff6b6b;font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">${escHtml(label)}</button>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
+    const close = () => overlay.remove();
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+    document.getElementById('confirm-modal-cancel').onclick = close;
+    document.getElementById('confirm-modal-ok').onclick = () => { close(); onConfirm(); };
+  }
+
+  // ── New message: pick a player to start (or reopen) a thread with ──────────
+  function openNewMessageModal() {
+    const overlay = document.createElement('div');
+    overlay.id = 'new-msg-modal-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML = `
+      <div style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:16px;max-width:420px;width:100%;padding:24px;max-height:80vh;display:flex;flex-direction:column;">
+        <h3 class="cond" style="font-size:16px;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;color:#fff;margin-bottom:14px;">New Message</h3>
+        <input class="field" id="new-msg-search" placeholder="Search players by name, jersey, or email…" oninput="renderNewMessagePlayerList()" style="margin-bottom:12px;" autocomplete="off">
+        <div id="new-msg-player-list" style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:2px;"></div>
+        <button onclick="closeNewMessageModal()" style="margin-top:14px;padding:11px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Cancel</button>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeNewMessageModal(); });
+    renderNewMessagePlayerList();
+    setTimeout(() => document.getElementById('new-msg-search')?.focus(), 50);
+  }
+
+  function closeNewMessageModal() {
+    document.getElementById('new-msg-modal-overlay')?.remove();
+  }
+
+  function renderNewMessagePlayerList() {
+    const q = (document.getElementById('new-msg-search')?.value || '').trim().toLowerCase();
+    const players = getPlayers().filter(p => (p.role || 'player') !== 'coach');
+    const filtered = !q ? players : players.filter(p =>
+      `${p.athleteFirst} ${p.athleteLast}`.toLowerCase().includes(q) ||
+      String(p.jersey || '').toLowerCase().includes(q) ||
+      (p.email || '').toLowerCase().includes(q));
+    const list = document.getElementById('new-msg-player-list');
+    if (!list) return;
+    if (!filtered.length) { list.innerHTML = `<p style="font-size:13px;color:rgba(255,255,255,0.7);text-align:center;padding:20px;">No players found.</p>`; return; }
+    list.innerHTML = filtered.slice(0, 50).map(p => `
+      <div onclick="startAdminThread('${escJsAttr(p.id)}')" style="display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='none'">
+        ${playerAvatarHTML(p, 32)}
+        <div style="min-width:0;">
+          <p style="font-size:13px;font-weight:700;color:#fff;">${escHtml(p.athleteFirst)} ${escHtml(p.athleteLast)}</p>
+          <p style="font-size:11px;color:rgba(255,255,255,0.7);">#${escHtml(p.jersey || '')} · ${escHtml(p.sport || '')}</p>
+        </div>
+      </div>`).join('');
+  }
+
+  function startAdminThread(playerId) {
+    closeNewMessageModal();
+    const threadId = 'admin_' + playerId;
+    const all = JSON.parse(localStorage.getItem('es_messages') || '[]');
+    let t = all.find(x => x.id === threadId);
+    if (!t) {
+      t = { id: threadId, playerId, coachId: null, coachName: 'EyeScout Team', coachTitle: 'Support', coachSchool: '', messages: [] };
+      all.push(t);
+      localStorage.setItem('es_messages', JSON.stringify(all));
+    }
+    if (currentView !== 'messages') switchView('messages');
+    activeMsgThreadId = threadId;
+    renderMessagesView();
   }
 
   // ── Restore an existing admin session on load ───────────────────────────────
