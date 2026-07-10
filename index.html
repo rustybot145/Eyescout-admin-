@@ -1010,10 +1010,10 @@
             if (opts.players) localStorage.setItem('es_players', JSON.stringify(rows.filter(r => (r.role || 'player') !== 'coach').map(_rowToPlayer)));
             if (opts.coaches) localStorage.setItem('es_coaches', JSON.stringify(rows.filter(r => r.role === 'coach').map(_rowToCoach)));
           }
-          // Pro subscriptions — loaded alongside players so the drawer can show
-          // each player's plan. Reader is admin-only (RLS otherwise limits
-          // subscription reads to the caller's own row).
-          if (opts.players) {
+          // Pro subscriptions — loaded alongside players/coaches so the drawer
+          // and coach manage modal can show each account's plan. Reader is
+          // admin-only (RLS otherwise limits subscription reads to your own row).
+          if (opts.players || opts.coaches) {
             const { data, error } = await _SB.rpc('admin_all_subscriptions', _adminCreds());
             if (!error && Array.isArray(data)) {
               localStorage.setItem('es_subscriptions', JSON.stringify(data.map(_rowToAdminSub)));
@@ -1905,6 +1905,30 @@
   }
   function getAdminSubscriptions() { return JSON.parse(localStorage.getItem('es_subscriptions') || '[]'); }
   function adminSubForPlayer(id)   { return getAdminSubscriptions().find(s => s.userId === id) || null; }
+
+  // Look up a managed account (player OR coach) by its profiles.id — subscriptions
+  // key off profiles.id regardless of role, so the whole Pro-grant flow below is
+  // shared between the player drawer and the coach manage modal.
+  function _managedEntity(id) {
+    const p = getPlayers().find(x => x.id === id);
+    if (p) return { id, name: `${p.athleteFirst || ''} ${p.athleteLast || ''}`.trim() || 'this player', kind: 'player' };
+    const c = getCoaches().find(x => x.id === id);
+    if (c) return { id, name: `${c.firstName || ''} ${c.lastName || ''}`.trim() || 'this coach', kind: 'coach' };
+    return { id, name: 'this account', kind: null };
+  }
+
+  // Re-render whichever subscription UI is currently open for this user id.
+  function _refreshSubUIFor(userId) {
+    if (activePlayerId === userId) {
+      const p = getPlayers().find(x => x.id === userId);
+      if (p) renderSubSection(p, 'd-sub-section');
+    }
+    const cbox = document.getElementById('coach-sub-section');
+    if (cbox && cbox.dataset.userId === userId) {
+      const c = getCoaches().find(x => x.id === userId);
+      if (c) renderSubSection(c, 'coach-sub-section');
+    }
+  }
   // Does this subscription grant Pro right now? Same rule as the server's
   // _es_has_active_sub / the client's _subHasAccess.
   function adminSubIsActive(sub) {
@@ -1924,8 +1948,8 @@
     return days === 1 ? '1 day left' : days + ' days left';
   }
 
-  function renderSubSection(p) {
-    const box = document.getElementById('d-sub-section');
+  function renderSubSection(p, containerId = 'd-sub-section') {
+    const box = document.getElementById(containerId);
     if (!box) return;
     const sub    = adminSubForPlayer(p.id);
     const active = adminSubIsActive(sub);
@@ -1974,11 +1998,11 @@
     { key: 'custom', label: 'Custom end date…', days: 'custom' },
   ];
 
-  function openGrantProModal(playerId) {
-    const p = getPlayers().find(pl => pl.id === playerId);
-    if (!p) return;
-    const name = `${p.athleteFirst || ''} ${p.athleteLast || ''}`.trim() || 'this player';
-    const currentlyPro = adminSubIsActive(adminSubForPlayer(playerId));
+  function openGrantProModal(userId) {
+    const entity = _managedEntity(userId);
+    if (!entity.kind) return;
+    const name = entity.name;
+    const currentlyPro = adminSubIsActive(adminSubForPlayer(userId));
 
     const overlay = document.createElement('div');
     overlay.id = 'grant-pro-overlay';
@@ -2053,27 +2077,27 @@
         expiresAt = new Date(Date.now() + selected.days * 86400000).toISOString();
       } // else indefinite → null
       close();
-      adminGrantPro(playerId, expiresAt);
+      adminGrantPro(userId, expiresAt);
     };
   }
 
-  async function adminGrantPro(playerId, expiresAtISO) {
+  async function adminGrantPro(userId, expiresAtISO) {
     if (!_adminUser) return;
-    // Optimistic local update so the drawer reflects it immediately.
-    const subs = getAdminSubscriptions().filter(s => s.userId !== playerId);
+    // Optimistic local update so the UI reflects it immediately.
+    const subs = getAdminSubscriptions().filter(s => s.userId !== userId);
     subs.push({
-      userId: playerId,
+      userId: userId,
       status: expiresAtISO ? 'cancelled' : 'active',
       plan: 'pro',
-      startedAt: (adminSubForPlayer(playerId)?.startedAt) || new Date().toISOString(),
+      startedAt: (adminSubForPlayer(userId)?.startedAt) || new Date().toISOString(),
       expiresAt: expiresAtISO || null,
     });
     localStorage.setItem('es_subscriptions', JSON.stringify(subs));
-    if (activePlayerId === playerId) { const p = getPlayers().find(pl => pl.id === playerId); if (p) renderSubSection(p); }
+    _refreshSubUIFor(userId);
 
     try {
       const { error } = await _SB.rpc('admin_set_subscription', {
-        ..._adminCreds(), p_user_id: playerId, p_expires_at: expiresAtISO,
+        ..._adminCreds(), p_user_id: userId, p_expires_at: expiresAtISO,
       });
       if (error) { alert('Could not update Pro plan: ' + (error.message || 'server error') + '\nRun supabase-phase8-admin-subscription.sql if you haven\'t yet.'); }
     } catch (e) {
@@ -2081,12 +2105,11 @@
     }
     // Re-pull authoritative state.
     await adminSync({ players: true });
-    if (activePlayerId === playerId) { const p = getPlayers().find(pl => pl.id === playerId); if (p) renderSubSection(p); }
+    _refreshSubUIFor(userId);
   }
 
-  function adminCancelPro(playerId) {
-    const p = getPlayers().find(pl => pl.id === playerId);
-    const name = p ? (`${p.athleteFirst || ''} ${p.athleteLast || ''}`.trim() || 'this player') : 'this player';
+  function adminCancelPro(userId) {
+    const name = _managedEntity(userId).name;
     openConfirmModal(
       'Cancel Pro Plan?',
       `This immediately ends ${name}'s EyeScout Pro access — they'll lose the full feed, scouting, and messaging right away. You can grant it again anytime.`,
@@ -2094,21 +2117,55 @@
         if (!_adminUser) return;
         // Optimistic: mark cancelled+expired locally.
         const subs = getAdminSubscriptions().map(s =>
-          s.userId === playerId ? { ...s, status: 'cancelled', expiresAt: new Date().toISOString() } : s);
+          s.userId === userId ? { ...s, status: 'cancelled', expiresAt: new Date().toISOString() } : s);
         localStorage.setItem('es_subscriptions', JSON.stringify(subs));
-        if (activePlayerId === playerId && p) renderSubSection(p);
+        _refreshSubUIFor(userId);
 
         try {
-          const { error } = await _SB.rpc('admin_cancel_subscription', { ..._adminCreds(), p_user_id: playerId });
+          const { error } = await _SB.rpc('admin_cancel_subscription', { ..._adminCreds(), p_user_id: userId });
           if (error) alert('Could not cancel Pro plan: ' + (error.message || 'server error'));
         } catch (e) {
           alert('Could not cancel Pro plan — check your connection.');
         }
         await adminSync({ players: true });
-        if (activePlayerId === playerId && p) renderSubSection(p);
+        _refreshSubUIFor(userId);
       },
       'Cancel Pro'
     );
+  }
+
+  // ── Coach management modal ──────────────────────────────────────────────────
+  // Same EyeScout Pro grant/cancel/time-limit system the player drawer uses,
+  // surfaced for coaches (who have no full drawer). Subscriptions key off
+  // profiles.id, so renderSubSection + the grant/cancel flow are shared as-is.
+  function openCoachManageModal(coachId) {
+    const c = getCoaches().find(x => x.id === coachId);
+    if (!c) return;
+    const name = `${c.firstName || ''} ${c.lastName || ''}`.trim() || 'Coach';
+    const sub  = c.school || c.sport ? `${escHtml(c.school || '')}${c.school && c.sport ? ' · ' : ''}${escHtml(c.sport || '')}` : '';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'coach-manage-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML = `
+      <div style="background:#1a1a1a;border:1px solid rgba(255,255,255,0.1);border-radius:16px;max-width:420px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;">
+          <div style="min-width:0;">
+            <p class="cond" style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:3px;">Manage Coach</p>
+            <h3 class="cond" style="font-size:19px;font-weight:900;letter-spacing:0.02em;color:#fff;">${escHtml(name)}</h3>
+            ${sub ? `<p style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:2px;">${sub}</p>` : ''}
+          </div>
+          <span class="badge ${c.verified ? 'badge-purchased' : 'badge-editing'}" style="flex-shrink:0;">${c.verified ? 'Verified' : 'Pending'}</span>
+        </div>
+        ${!c.verified ? `<p style="font-size:11px;color:#fb923c;background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.2);border-radius:8px;padding:9px 12px;line-height:1.5;margin:12px 0 4px;">Heads up: this coach isn't verified yet. Pro access alone won't unlock scouting until they're also approved — use Approve on the coaches list.</p>` : ''}
+        <p class="d-section" style="margin-top:18px;">EyeScout Pro Subscription</p>
+        <div id="coach-sub-section" data-user-id="${escAttr(c.id)}" style="margin-bottom:16px;"></div>
+        <button id="coach-manage-done" style="width:100%;padding:11px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Done</button>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    overlay.querySelector('#coach-manage-done').onclick = () => overlay.remove();
+    renderSubSection(c, 'coach-sub-section');
   }
 
   function togglePhotosReady() {
@@ -2773,6 +2830,7 @@
         }
         <!-- Actions -->
         <div style="display:flex;gap:8px;flex-shrink:0;">
+          <button onclick="openCoachManageModal('${escJsAttr(c.id)}')" style="padding:7px 14px;border-radius:7px;background:rgba(30,144,255,0.08);border:1px solid rgba(30,144,255,0.25);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#1E90FF;white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">Manage</button>
           ${isVerified
             ? `<button onclick="revokeCoach('${escJsAttr(c.id)}')" style="padding:7px 14px;border-radius:7px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.09);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:rgba(255,255,255,0.7);white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">Revoke</button>`
             : `<button onclick="approveCoach('${escJsAttr(c.id)}')" style="padding:7px 14px;border-radius:7px;background:rgba(57,211,83,0.08);border:1px solid rgba(57,211,83,0.25);cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:#39D353;white-space:nowrap;transition:all 0.2s;" onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">✓ Approve</button>
