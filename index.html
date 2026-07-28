@@ -345,6 +345,13 @@
         <!-- Filters -->
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:18px;flex-wrap:wrap;">
           <div style="display:flex;gap:8px;margin-left:auto;align-items:center;flex-shrink:0;">
+            <select id="sort-players" aria-label="Sort players" class="filter-select" onchange="applySecondaryFilters()">
+              <option value="">Sort By</option>
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="az">Name A–Z</option>
+              <option value="za">Name Z–A</option>
+            </select>
             <select id="filter-sport" aria-label="Filter by sport" class="filter-select" onchange="applySecondaryFilters()">
               <option value="all">All Sports</option>
             </select>
@@ -1303,7 +1310,8 @@
   function updateFilterBtnStyle() {
     const sport = document.getElementById('filter-sport')?.value || 'all';
     const tourn = document.getElementById('filter-tournament')?.value || 'all';
-    const isActive = playerFilter !== 'all' || sport !== 'all' || tourn !== 'all';
+    const sort  = document.getElementById('sort-players')?.value || '';
+    const isActive = playerFilter !== 'all' || sport !== 'all' || tourn !== 'all' || sort !== '';
     const clearBtn = document.getElementById('clear-all-filters');
     if (clearBtn) clearBtn.style.display = isActive ? 'inline-flex' : 'none';
   }
@@ -1325,8 +1333,10 @@
     const tourn = document.getElementById('filter-tournament')?.value || 'all';
     const sportEl = document.getElementById('filter-sport');
     const tournEl = document.getElementById('filter-tournament');
+    const sortEl  = document.getElementById('sort-players');
     if (sportEl) sportEl.className = 'filter-select' + (sport !== 'all' ? ' active-select' : '');
     if (tournEl) tournEl.className = 'filter-select' + (tourn !== 'all' ? ' active-select' : '');
+    if (sortEl)  sortEl.className  = 'filter-select' + (sortEl.value ? ' active-select' : '');
     updateFilterBtnStyle();
     renderPlayers();
   }
@@ -1341,8 +1351,10 @@
     });
     const sportEl = document.getElementById('filter-sport');
     const tournEl = document.getElementById('filter-tournament');
+    const sortEl = document.getElementById('sort-players');
     if (sportEl) { sportEl.value = 'all'; sportEl.className = 'filter-select'; }
     if (tournEl) { tournEl.value = 'all'; tournEl.className = 'filter-select'; }
+    if (sortEl)  { sortEl.value = ''; sortEl.className = 'filter-select'; }
     updateFilterBtnStyle();
     renderPlayers();
   }
@@ -1374,7 +1386,8 @@
     if (btn) { btn.textContent = '↺ Refresh'; btn.disabled = false; }
   }
 
-  // Searchable date-added string: covers "jul", "july", "8", "2025", "jul 8, 2025", "7/8/2025", "2025-07-08".
+  // Searchable date-added string: covers "jul", "july", "8", "2025", "jul 8, 2025",
+  // "2025-07-08", and every slash form — "7/8/2025", "7/8/25", "07/08/2025", "07/08/25".
   function joinedSearchStr(createdAt) {
     if (!createdAt) return '';
     const d = new Date(createdAt);
@@ -1382,8 +1395,10 @@
     const long  = d.toLocaleDateString('en-US', { month: 'long',  day: 'numeric', year: 'numeric' });
     const short = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     const iso   = d.toISOString().slice(0, 10);
-    const num   = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-    return `${long} ${short} ${iso} ${num}`.toLowerCase();
+    const pad   = n => String(n).padStart(2, '0');
+    const m = d.getMonth() + 1, day = d.getDate(), yyyy = d.getFullYear(), yy = pad(yyyy % 100);
+    const nums  = [`${m}/${day}/${yyyy}`, `${m}/${day}/${yy}`, `${pad(m)}/${pad(day)}/${yyyy}`, `${pad(m)}/${pad(day)}/${yy}`].join(' ');
+    return `${long} ${short} ${iso} ${nums}`.toLowerCase();
   }
 
   function renderPlayers() {
@@ -1410,6 +1425,18 @@
       );
     }
 
+    // Sort — missing/invalid createdAt sorts to the bottom of date order rather than
+    // poisoning the comparator with NaN.
+    const sortQ  = document.getElementById('sort-players')?.value || '';
+    const joinTs = p => { const t = Date.parse(p.createdAt); return isNaN(t) ? 0 : t; };
+    const nameOf = p => (p.athleteFirst + ' ' + p.athleteLast).trim().toLowerCase();
+    if (sortQ) players = players.slice().sort(
+      sortQ === 'oldest' ? (a, b) => (joinTs(a) || Infinity) - (joinTs(b) || Infinity)
+    : sortQ === 'az'     ? (a, b) => nameOf(a).localeCompare(nameOf(b))
+    : sortQ === 'za'     ? (a, b) => nameOf(b).localeCompare(nameOf(a))
+    :                      (a, b) => joinTs(b) - joinTs(a)
+    );
+
     const list  = document.getElementById('player-list');
     const empty = document.getElementById('empty-state');
     if (!players.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
@@ -1417,7 +1444,7 @@
 
     list.innerHTML = players.map(p => {
       const name   = p.athleteFirst + ' ' + p.athleteLast;
-      const joined = new Date(p.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const joined = joinTs(p) ? new Date(p.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
 
       const purchaseBadge = p.purchased
         ? `<span class="badge badge-purchased"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Purchased</span>`
