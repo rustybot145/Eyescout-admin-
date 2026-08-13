@@ -3225,6 +3225,17 @@
     t.messages.push({ from: 'coach', text, timestamp: new Date().toISOString(), read: true });
     saveAdminThreads(threads);
     if (typeof _sbSaveThread === 'function') _sbSaveThread(t);
+    // Durable row so notify-email can send. Admin threads carry coachId: null, so
+    // this has NO actor_id — that absence is exactly what proves it came from here:
+    // it is written via admin_insert_notification (SECURITY DEFINER), the only path
+    // that can insert a null actor. RLS confines ordinary users to actor_id =
+    // their own uid, and the function refuses an admin_message that has one.
+    // Carries no message text, same as every other notification.
+    if (t.playerId && typeof _sbAddNotification === 'function') _sbAddNotification({
+      id:       'amsg_' + t.id + '_' + Date.now(),
+      targetId: t.playerId,
+      type:     'admin_message',
+    });
     input.value = '';
     renderAmsgChatWindow(t);
     renderAmsgList();
