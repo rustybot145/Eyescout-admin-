@@ -636,7 +636,7 @@
     <!-- Status bar -->
     <div id="drawer-status" style="border-radius:8px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;"></div>
 
-    <!-- EyeScout Pro subscription (admin-controlled; rendered by renderSubSection) -->
+    <!-- Subscription panel — disabled while Pro is off; rendered by renderSubSection -->
     <div id="d-sub-section" style="margin-bottom:12px;"></div>
 
     <!-- Contact quick-bar -->
@@ -1656,7 +1656,11 @@
   }
 
   async function revokeInvite(code) {
-    if (!_adminUser || !_adminPass) return;
+    // Guarded on _adminUser only. It used to also require _adminPass, which has
+    // been the empty string since admins moved to Supabase Auth — '' is falsy, so
+    // this returned early every time and the Revoke button silently did nothing.
+    // Identity now rides on the Auth token and the server re-checks via is_admin().
+    if (!_adminUser) return;
     if (!confirm('Revoke this invite code? It will no longer work.')) return;
     try {
       const { error } = await _SB.rpc('revoke_admin_invite', {
@@ -1980,43 +1984,33 @@
     return days === 1 ? '1 day left' : days + ' days left';
   }
 
+  // ── DISABLED: there is no Pro plan to change ────────────────────────────────
+  // Ben's call (2026-08-15): Pro is off across the website and the apps until
+  // there are enough users to charge, so granting or revoking it here would do
+  // nothing a user could see — everyone already has full access.
+  //
+  // This one function is the ONLY thing that renders the subscription controls,
+  // and it is shared by the player drawer ('d-sub-section') and the coach manage
+  // modal ('coach-sub-section') — so replacing it disables both at once.
+  //
+  // The grant/cancel machinery below (openGrantProModal, adminGrantPro,
+  // adminCancelPro) and its RPCs are left intact but unreachable: nothing renders
+  // a button that calls them any more. Restoring the block below this comment is
+  // all it takes to switch admin control back on.
   function renderSubSection(p, containerId = 'd-sub-section') {
     const box = document.getElementById(containerId);
     if (!box) return;
-    const sub    = adminSubForPlayer(p.id);
-    const active = adminSubIsActive(sub);
-    const idAttr = escJsAttr(p.id);
-
-    if (active) {
-      const indefinite = sub.status === 'active' && !sub.expiresAt;
-      const detail = indefinite
-        ? 'Active · No end date'
-        : `Active until ${_fmtSubDate(sub.expiresAt)} · ${_daysLeftLabel(sub.expiresAt)}`;
-      box.style.cssText = 'margin-bottom:12px;border-radius:8px;padding:12px 16px;background:rgba(57,211,83,0.08);border:1px solid rgba(57,211,83,0.22);';
-      box.innerHTML = `
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-          <div style="min-width:0;">
-            <span class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#39D353;">★ EyeScout Pro</span>
-            <p style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;">${escHtml(detail)}</p>
-          </div>
-          <div style="display:flex;gap:8px;flex-shrink:0;">
-            <button onclick="openGrantProModal('${idAttr}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.85);transition:border-color 0.15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.28)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)'">Change</button>
-            <button onclick="adminCancelPro('${idAttr}')" style="background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.28);border-radius:6px;padding:5px 12px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#ff6b6b;transition:all 0.15s;" onmouseover="this.style.background='rgba(255,60,60,0.18)'" onmouseout="this.style.background='rgba(255,60,60,0.1)'">Cancel Pro</button>
-          </div>
-        </div>`;
-    } else {
-      const wasExpired = sub && sub.expiresAt;
-      const detail = wasExpired ? `Expired ${_fmtSubDate(sub.expiresAt)}` : 'No active subscription';
-      box.style.cssText = 'margin-bottom:12px;border-radius:8px;padding:12px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);';
-      box.innerHTML = `
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-          <div style="min-width:0;">
-            <span class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Not Pro</span>
-            <p style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px;">${escHtml(detail)}</p>
-          </div>
-          <button onclick="openGrantProModal('${idAttr}')" class="g-btn" style="border-radius:6px;padding:5px 14px;cursor:pointer;font-family:'Arial Narrow',Arial,sans-serif;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#fff;flex-shrink:0;">Grant Pro</button>
-        </div>`;
-    }
+    box.style.cssText = 'margin-bottom:12px;border-radius:8px;padding:14px 16px;background:rgba(57,211,83,0.06);border:1px solid rgba(57,211,83,0.2);';
+    box.innerHTML = `
+      <div style="display:flex;align-items:center;gap:11px;">
+        <span style="font-size:15px;line-height:1;flex-shrink:0;">\u{1F513}</span>
+        <div style="min-width:0;">
+          <span class="cond" style="font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#39D353;">Everybody's Free Until 30,000 Users</span>
+          <p style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:3px;line-height:1.5;">
+            Pro is switched off everywhere, so there's no subscription to change. Every account already has full access.
+          </p>
+        </div>
+      </div>`;
   }
 
   // Duration presets for a Pro grant. `days: null` = indefinite (no end date).
@@ -2189,8 +2183,8 @@
           </div>
           <span class="badge ${c.verified ? 'badge-purchased' : 'badge-editing'}" style="flex-shrink:0;">${c.verified ? 'Verified' : 'Pending'}</span>
         </div>
-        ${!c.verified ? `<p style="font-size:11px;color:#fb923c;background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.2);border-radius:8px;padding:9px 12px;line-height:1.5;margin:12px 0 4px;">Heads up: this coach isn't verified yet. Pro access alone won't unlock scouting until they're also approved — use Approve on the coaches list.</p>` : ''}
-        <p class="d-section" style="margin-top:18px;">EyeScout Pro Subscription</p>
+        ${!c.verified ? `<p style="font-size:11px;color:#fb923c;background:rgba(251,146,60,0.08);border:1px solid rgba(251,146,60,0.2);border-radius:8px;padding:9px 12px;line-height:1.5;margin:12px 0 4px;">Heads up: this coach isn't verified yet. Scouting stays locked until they're approved — use Approve on the coaches list.</p>` : ''}
+        <p class="d-section" style="margin-top:18px;">Subscription</p>
         <div id="coach-sub-section" data-user-id="${escAttr(c.id)}" style="margin-bottom:16px;"></div>
         <button id="coach-manage-done" style="width:100%;padding:11px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);font-family:'Arial Narrow',Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;">Done</button>
       </div>`;
