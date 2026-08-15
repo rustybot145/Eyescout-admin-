@@ -3219,6 +3219,30 @@
     t.messages.push({ from: 'coach', text, timestamp: new Date().toISOString(), read: true });
     saveAdminThreads(threads);
     if (typeof _sbSaveThread === 'function') _sbSaveThread(t);
+    // Durable row so notify-email can send. Admin threads carry coachId: null, so
+    // this has NO actor_id, and the email renders a fixed "EyeScout Sports".
+    //
+    // Written straight through _SB rather than _sbAddNotification: that wrapper
+    // routes to admin_insert_notification(p_username, p_password, d), and since
+    // bcrypt was retired _adminPass is '' — so the call either fails the password
+    // check or misses the signature, and _adminWrite swallows both errors without
+    // inserting anything. A direct insert has no such ambiguity.
+    //
+    // The RLS policy permits a null actor for this type only when is_admin() is
+    // true, so an ordinary player still cannot forge one, and notify-email
+    // separately refuses any admin_message that arrives WITH an actor_id.
+    // Carries no message text, same as every other notification.
+    if (t.playerId) {
+      _SB.from('notifications').insert({
+        id:         'amsg_' + t.id + '_' + Date.now(),
+        target_id:  t.playerId,
+        actor_id:   null,
+        type:       'admin_message',
+        read:       false,
+        created_at: new Date().toISOString(),
+      }).then(({ error }) => { if (error) console.error('[admin msg notify]', error.message); },
+              () => {});
+    }
     input.value = '';
     renderAmsgChatWindow(t);
     renderAmsgList();
